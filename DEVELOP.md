@@ -20,3 +20,10 @@ Keep only generic and reusable pieces here:
 - lightweight prompt/runtime helpers
 
 Do not move product-specific business logic here.
+
+## Testing and Docs
+
+- Keep tests small and dependency-light.
+- Prefer stable helpers over framework-specific abstractions.
+- Keep README, CHANGELOG, and docs aligned with exported runtime behavior.
+- Only add automation that this repository can actually support and maintain.

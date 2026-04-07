@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatstyle"
+dynamic = ["version"]
+description = "Reusable CLI interaction and scaffold helpers extracted from ChatTool practices"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{name = "Rex Wang", email = "1073853456@qq.com"}]
+license = "MIT"
+keywords = ["chatstyle", "cli", "interactive"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/RexWzh/chat-style"
+Repository = "https://github.com/RexWzh/chat-style"
+
+[tool.setuptools.dynamic]
+version = {attr = "chatstyle.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = true

@@ -33,6 +33,42 @@ from ChatTool first, then refined here before any upstream decoupling happens.
 - `docs/`: long-lived package notes
 - `.github/workflows/`: CI and publish automation skeleton
 
+## Minimal Example
+
+```python
+import click
+
+from chatstyle import (
+    CommandField,
+    CommandSchema,
+    add_interactive_option,
+    resolve_command_inputs,
+)
+
+
+DEMO_SCHEMA = CommandSchema(
+    name="demo",
+    fields=(
+        CommandField("name", prompt="name", required=True),
+        CommandField("output", prompt="output path", kind="path", default="./out.txt"),
+    ),
+)
+
+
+@click.command()
+@click.option("--name", required=False)
+@click.option("--output", required=False)
+@add_interactive_option
+def demo(name, output, interactive):
+    values = resolve_command_inputs(
+        schema=DEMO_SCHEMA,
+        provided={"name": name, "output": output},
+        interactive=interactive,
+        usage="Usage: demo [--name TEXT] [--output PATH] [-i|-I]",
+    )
+    click.echo(f"run demo for {values['name']} -> {values['output']}")
+```
+
 ## Local Checks
 
 ```bash

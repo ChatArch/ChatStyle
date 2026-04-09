@@ -8,3 +8,7 @@ Recommended future topics:
 - prompt behavior
 - secret masking rules
 - downstream integration examples
+
+Current docs:
+
+- `interaction-runtime.md`: extracted module boundaries and dependency strategy

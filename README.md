@@ -8,6 +8,21 @@ Current goal:
 - package common prompt / masking / interactive-mode helpers
 - provide a light runtime that future `cli-style` scaffolds can depend on
 
+Current extracted runtime includes:
+
+- interactive mode resolution and TTY policy
+- secret masking
+- declarative command schema and constraint objects
+- shared input resolver for Click-based commands
+- shared `--interactive/--no-interactive` Click option helper
+- minimal prompt primitives for text/path/confirm/select
+
+Intentionally not extracted yet:
+
+- complex product-specific TUI flows
+- heavily customized checkbox controls
+- ChatTool business helpers and command-specific orchestration
+
 This repository is currently an extraction target. At this stage, code may be copied
 from ChatTool first, then refined here before any upstream decoupling happens.
 

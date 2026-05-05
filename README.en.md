@@ -17,36 +17,36 @@
 
 # ChatStyle
 
-ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、mask、setup 展示、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
+ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, setup display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
-当前版本仍是 `0.1.0`，用于本地开发和后续发版准备。
+The current version remains `0.1.0` for local development and release preparation.
 
-## 能力
+## Features
 
-- `chatstyle.prompt`：文本、路径、确认、单选、多选 prompt。
-- `chatstyle.choice`：choice、separator 和 questionary fallback 适配。
-- `chatstyle.output`：标题、提示、Rich/click fallback 展示。
-- `chatstyle.mask`：敏感值脱敏和敏感输入。
-- `chatstyle.setup`：setup 阶段输出、建议命令和配置优先级展示。
-- `chatstyle.schema` / `chatstyle.resolve`：声明式命令输入 schema 与补问解析。
-- `chatstyle.click`：Click 的 `-i/-I` option 接入。
-- `chatstyle.interactive` / `chatstyle.errors`：TTY、interactive 策略和错误 helper。
+- `chatstyle.prompt`: text, path, confirm, select, and checkbox prompts.
+- `chatstyle.choice`: choice, separator, and questionary fallback adapters.
+- `chatstyle.output`: headings, notes, and Rich/click fallback display.
+- `chatstyle.mask`: secret masking and sensitive input helpers.
+- `chatstyle.setup`: setup-stage output, suggested commands, and config-priority display.
+- `chatstyle.schema` / `chatstyle.resolve`: declarative command input schema and resolution.
+- `chatstyle.click`: Click `-i/-I` option integration.
+- `chatstyle.interactive` / `chatstyle.errors`: TTY, interactive policy, and error helpers.
 
-## 安装
+## Install
 
-本地开发：
+Local development:
 
 ```bash
 pip install -e /home/rexwzh/workspace/core/ChatStyle
 ```
 
-项目依赖：
+Project dependency:
 
 ```toml
 dependencies = ["chatstyle"]
 ```
 
-## 最小示例
+## Minimal Example
 
 ```python
 import click
@@ -84,14 +84,14 @@ def demo(name, output, token, interactive):
     click.echo(f"run demo for {values['name']} -> {values['output']}")
 ```
 
-## 文档
+## Docs
 
 ```bash
 pip install -e ".[docs]"
 mkdocs serve
 ```
 
-## 本地检查
+## Local Checks
 
 ```bash
 python -m pytest -q

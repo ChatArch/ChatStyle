@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import click
 
+from .constants import INTERACTIVE_OPTION_HELP
+
 
 def add_interactive_option(func):
     """Attach the shared interactive option to a Click command."""
@@ -10,5 +12,5 @@ def add_interactive_option(func):
         "interactive",
         "-i/-I",
         default=None,
-        help="Auto prompt on missing args, -i forces interactive, -I disables it.",
+        help=INTERACTIVE_OPTION_HELP,
     )(func)

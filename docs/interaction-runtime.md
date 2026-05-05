@@ -19,7 +19,15 @@
 - `chatstyle.click`
   - Click integration helpers such as `add_interactive_option()`
 - `chatstyle.prompt`
-  - minimal prompt primitives for text, path, confirm, and select
+  - prompt primitives for text, path, confirm, select, and checkbox
+- `chatstyle.choice`
+  - reusable choice/separator helpers and questionary adapters
+- `chatstyle.output`
+  - shared headings, notes, and Rich/click fallback display
+- `chatstyle.setup`
+  - setup-stage output and suggested command display
+- `chatstyle.constants`
+  - shared `-i/-I`, back value, and checkbox indicator constants
 
 ## Current Scope
 
@@ -44,7 +52,7 @@ The following are intentionally left outside `chatstyle` for now:
 
 - `click` is a core dependency for the current extraction stage
 - `questionary` remains optional and only improves `ask_select()` when installed
-- more advanced TUI dependencies should stay optional unless a clear reusable contract emerges
+- `rich`, `questionary`, and `prompt_toolkit` stay optional and are imported lazily
 
 ## Recommended Downstream Usage
 

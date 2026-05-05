@@ -1,0 +1,10 @@
+site_name: ChatStyle 文档
+site_url: https://chatarch.github.io/ChatStyle
+repo_url: https://github.com/ChatArch/ChatStyle
+theme:
+  name: material
+  language: zh
+nav:
+  - 首页: index.md
+  - Runtime: interaction-runtime.md
+  - English: index.en.md

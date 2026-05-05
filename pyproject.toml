@@ -18,8 +18,23 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/RexWzh/chat-style"
-Repository = "https://github.com/RexWzh/chat-style"
+Homepage = "https://github.com/ChatArch/ChatStyle"
+Repository = "https://github.com/ChatArch/ChatStyle"
+Documentation = "https://chatarch.github.io/ChatStyle"
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mike>=2.0.0",
+]
+dev = [
+    "build",
+    "pytest",
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mike>=2.0.0",
+]
 
 [tool.setuptools.dynamic]
 version = {attr = "chatstyle.__version__"}

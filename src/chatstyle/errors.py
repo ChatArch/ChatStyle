@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import click
 
+from .constants import FORCE_INTERACTIVE_NO_TTY_MESSAGE
+
 
 def abort_if_force_without_tty(
     force_interactive: bool, can_prompt: bool, usage: str
 ) -> None:
     if force_interactive and not can_prompt:
         raise click.ClickException(
-            f"Interactive mode was requested, but no TTY is available.\n{usage}"
+            f"{FORCE_INTERACTIVE_NO_TTY_MESSAGE}\n{usage}"
         )
 
 

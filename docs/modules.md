@@ -1,6 +1,6 @@
 # 模块板块
 
-ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏感值和 setup 展示”拆分。模块保持通用，不包含 ChatTool 业务逻辑。
+ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏感值和 flow 展示”拆分。模块保持通用，不包含 ChatTool 业务逻辑。
 
 ## Command Schema Runtime
 
@@ -77,15 +77,17 @@ ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏�
 
 用途：
 
-- 渲染标题。
-- 渲染说明提示。
-- 未来承载 status、summary、table、key-value 等通用展示 helper。
+- `render_heading()`：渲染通用标题。
+- `render_note()`：渲染弱提示。
+- `render_status()`：渲染业务中立的 info/success/warning/error 状态。
+- `render_suggested_commands()`：打印建议用户手动执行的命令，但不执行。
+- `render_priority_chain()`：展示配置或解析优先级链。
 
 实现原则：
 
-- Rich 可用时使用 Rich。
+- Rich 可用时使用 Rich 增强标题和提示。
 - Rich 不可用时 fallback 到 Click。
-- 输出 helper 只负责表现，不解析业务错误。
+- 输出 helper 只负责表现，不解析业务错误，不执行命令。
 
 ## Mask And Sensitive Input
 
@@ -107,21 +109,23 @@ ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏�
 - app secret
 - webhook secret
 
-## Setup Display
+## Flow Display
 
 相关模块：
 
+- `chatstyle.flow`
 - `chatstyle.setup`
 
 用途：
 
-- setup 开始、阶段、成功、警告和失败展示。
-- 打印需要用户手动执行的建议命令。
-- 展示配置来源优先级。
+- `render_flow_start()`：展示一个多步骤 CLI 流程开始。
+- `render_stage()`：展示当前阶段。
+- `render_success()` / `render_warning()` / `render_failure()`：展示通用结果。
+- `render_commands()`：展示建议用户手动执行的命令。
+- `render_priority_chain()`：展示配置来源或解析优先级。
 
 边界：
 
-- 不执行安装。
-- 不检测依赖。
-- 不写配置。
-- 只提供 setup 流程中的可复用展示方式。
+- `flow` 不执行安装、系统命令或远端调用。
+- `flow` 不检测依赖、不写配置。
+- `setup` 只是 setup 场景兼容 wrapper，底层委托到通用 `flow` / `output`，不作为核心抽象。

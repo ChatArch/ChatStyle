@@ -17,7 +17,7 @@
 
 # ChatStyle
 
-ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, setup display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
+ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, flow display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
 The current version remains `0.1.0` for local development and release preparation.
 
@@ -25,9 +25,10 @@ The current version remains `0.1.0` for local development and release preparatio
 
 - `chatstyle.prompt`: text, path, confirm, select, and checkbox prompts.
 - `chatstyle.choice`: choice, separator, and questionary fallback adapters.
-- `chatstyle.output`: headings, notes, and Rich/click fallback display.
+- `chatstyle.output`: headings, notes, status lines, suggested commands, priority chains, and Rich/click fallback display.
 - `chatstyle.mask`: secret masking and sensitive input helpers.
-- `chatstyle.setup`: setup-stage output, suggested commands, and config-priority display.
+- `chatstyle.flow`: flow-stage output, results, suggested commands, and config-priority display.
+- `chatstyle.setup`: setup-scenario compatibility wrappers backed by generic flow/output helpers.
 - `chatstyle.schema` / `chatstyle.resolve`: declarative command input schema and resolution.
 - `chatstyle.click`: Click `-i/-I` option integration.
 - `chatstyle.interactive` / `chatstyle.errors`: TTY, interactive policy, and error helpers.
@@ -42,9 +43,9 @@ The current version remains `0.1.0` for local development and release preparatio
 
 `prompt` and `choice` provide text input, path input, confirmation, single select, checkbox selection, select-all controls, and choice/separator construction. `questionary` and `prompt_toolkit` are imported lazily; Click fallback keeps the package usable without them.
 
-### Output And Setup
+### Output And Flow
 
-`output` provides common headings and notes with Rich/click fallback. `setup` provides setup wizard stage output, suggested commands, and config-priority display.
+`output` provides common headings, notes, status lines, suggested commands, and priority chains with Rich/click fallback. `flow` provides stage, success, warning, and failure display for multi-step CLI flows. `setup` remains only as a setup-scenario wrapper, not the core abstraction.
 
 ### Mask And Interactive Policy
 

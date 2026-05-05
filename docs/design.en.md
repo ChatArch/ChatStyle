@@ -278,7 +278,7 @@ A better abstraction is:
 - Suggested command display: useful for doctor, deploy, repair, and setup.
 - Config-priority display: useful for any CLI that reads config.
 
-So the design should avoid giving `setup` special treatment. A more stable direction is to move these helpers into generic output/flow APIs:
+So the implementation should avoid giving `setup` special treatment. The current direction is to move these helpers into generic output/flow APIs:
 
 ```python
 render_stage("Check environment")
@@ -286,7 +286,7 @@ render_suggested_commands(["sudo systemctl restart demo"])
 render_priority_chain(["CLI option", "ENV", "config file", "default"])
 ```
 
-If `chatstyle.setup` remains, it should be a compatibility or scenario wrapper rather than the core abstraction.
+`chatstyle.setup` currently remains as a compatibility and scenario wrapper rather than the core abstraction.
 
 ## ChatStyle And chattool pypi
 
@@ -328,6 +328,12 @@ Names and boundaries need discussion:
 - `render_status`
 - `render_suggested_commands`
 - `render_priority_chain`
+- `render_flow_start`
+- `render_stage`
+- `render_success`
+- `render_warning`
+- `render_failure`
+- `render_commands`
 - `create_choice`
 - `get_separator`
 
@@ -351,12 +357,12 @@ chatstyle.prompt       prompt primitives
 chatstyle.choice       choice representation and adapters
 chatstyle.mask         secret display and input
 chatstyle.output       common presentation
-chatstyle.flow         flow stages, suggested commands, priority chains (to discuss)
+chatstyle.flow         flow stages, suggested commands, priority chains
 chatstyle.errors       CLI error helpers
 chatstyle.constants    shared constants
 ```
 
-`flow` is a discussion candidate for replacing the overly specific `setup` naming.
+`flow` is the core flow-display module; `setup` remains only as a scenario wrapper.
 
 ## Design Principles
 
@@ -382,7 +388,7 @@ ChatStyle does not know what publish, certificate, DNS, PR, or setup means.
 
 ## Open Questions
 
-1. Should we introduce `chatstyle.flow` and downgrade or remove `chatstyle.setup`?
+1. Should `chatstyle.setup` remain as a long-term wrapper, or should it be removed from top-level exports before release?
 2. What stable output APIs should exist: heading/note only, or status/summary/table as well?
 3. Should `CommandSchema` support richer choice value/label objects instead of `Sequence[str]`?
 4. Is `prompt_if_missing` the right name, or should it become `prompt_if_defaulted` / `confirm_default`?
@@ -397,7 +403,7 @@ Short term:
 
 - Keep `CommandSchema` as the core.
 - Strengthen prompt, mask, interactive, and Click integration tests.
-- Re-abstract `setup` into generic flow/output helpers.
+- Keep setup-scenario behavior behind generic flow/output APIs.
 - Explain concepts and conventions before APIs in docs.
 - Let `chatpypi init` depend on ChatStyle instead of copying implementation.
 

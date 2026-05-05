@@ -282,7 +282,7 @@ ChatStyle 的输出层应该提供通用表现，而不是业务解释。
 - 建议命令展示：doctor、deploy、repair、setup 都可能需要。
 - 配置优先级展示：所有读取配置的 CLI 都可能需要。
 
-因此后续设计上应避免给 `setup` 单独开小灶。更稳的方向是把它们归入通用 output/flow 能力：
+因此实现上应避免给 `setup` 单独开小灶。当前方向是把它们归入通用 output/flow 能力：
 
 ```python
 render_stage("Check environment")
@@ -290,7 +290,7 @@ render_suggested_commands(["sudo systemctl restart demo"])
 render_priority_chain(["CLI option", "ENV", "config file", "default"])
 ```
 
-如果保留 `chatstyle.setup`，也应只是兼容或场景化 wrapper，而不是核心抽象。
+当前保留 `chatstyle.setup` 作为兼容和场景化 wrapper，而不是核心抽象。
 
 ## ChatStyle 和 chattool pypi
 
@@ -332,6 +332,12 @@ ChatStyle 的主要落点是配合 `chattool pypi` / `chatpypi init` 创建 Chat
 - `render_status`
 - `render_suggested_commands`
 - `render_priority_chain`
+- `render_flow_start`
+- `render_stage`
+- `render_success`
+- `render_warning`
+- `render_failure`
+- `render_commands`
 - `create_choice`
 - `get_separator`
 
@@ -355,12 +361,12 @@ chatstyle.prompt       prompt 原语
 chatstyle.choice       choice 表达和 adapter
 chatstyle.mask         敏感值显示和输入
 chatstyle.output       通用输出表现
-chatstyle.flow         流程阶段、建议命令、优先级链等通用流程展示（待讨论）
+chatstyle.flow         流程阶段、建议命令、优先级链等通用流程展示
 chatstyle.errors       CLI 错误 helper
 chatstyle.constants    共享常量
 ```
 
-这里 `flow` 是待讨论模块，用来替代过度 specific 的 `setup` 命名。
+这里 `flow` 是核心流程展示模块；`setup` 只作为场景 wrapper 保留。
 
 ## 设计原则
 
@@ -386,7 +392,7 @@ ChatStyle 不知道“发布、证书、DNS、PR、setup”具体意味着什么
 
 ## 待讨论问题
 
-1. 是否引入 `chatstyle.flow`，并将现有 `chatstyle.setup` 降级为 wrapper 或移除？
+1. `chatstyle.setup` 是否继续保留为长期 wrapper，还是在正式发版前移出顶层导出？
 2. 输出层应该提供哪些稳定 API：只提供 heading/note，还是也提供 status/summary/table？
 3. `CommandSchema` 是否应该支持更丰富的 choice value/label 对象，而不是 `Sequence[str]`？
 4. `prompt_if_missing` 的命名是否准确？是否应该改成 `prompt_if_defaulted` 或 `confirm_default`？
@@ -401,7 +407,7 @@ ChatStyle 不知道“发布、证书、DNS、PR、setup”具体意味着什么
 
 - 保留 `CommandSchema` 作为核心。
 - 强化 prompt、mask、interactive 和 Click 集成测试。
-- 把 `setup` 重新抽象为通用 flow/output 能力。
+- 将 setup 场景能力收敛到通用 flow/output API。
 - 文档优先讲概念和约定，再讲 API。
 - `chatpypi init` 只依赖 ChatStyle，不复制实现。
 

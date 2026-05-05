@@ -13,7 +13,7 @@ Included:
 - Missing-argument prompting policy.
 - Prompt, choice, confirm, and checkbox primitives.
 - Defaults, secrets, field validation, and cross-field constraints.
-- Common output, setup-stage display, and suggested command display.
+- Common output, flow-stage display, and suggested command display.
 
 Excluded:
 
@@ -32,8 +32,9 @@ Excluded:
 - `chatstyle.prompt`: provides text, path, confirm, select, and checkbox prompt primitives.
 - `chatstyle.choice`: provides choice, separator, and questionary adapters.
 - `chatstyle.mask`: masks secrets, formats current-secret hints, and prompts sensitive values.
-- `chatstyle.output`: displays headings and notes with Rich/click fallback.
-- `chatstyle.setup`: displays setup stages, suggested commands, and config priority.
+- `chatstyle.output`: displays headings, notes, status lines, suggested commands, priority chains, and Rich/click fallback.
+- `chatstyle.flow`: displays flow stages, results, and suggested commands.
+- `chatstyle.setup`: provides setup-scenario compatibility wrappers.
 - `chatstyle.constants`: stores shared `-i/-I` copy, `BACK_VALUE`, and checkbox indicators.
 
 See [Modules](modules.md) for responsibilities, [Interaction Conventions](conventions.md) for behavior rules, and [Development Guide](development.md) for maintenance rules.

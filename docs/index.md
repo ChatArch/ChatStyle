@@ -1,12 +1,13 @@
 # ChatStyle 文档
 
-ChatStyle 是可复用的 CLI 交互风格和 runtime 包，适合需要统一 prompt、缺参补问、`-i/-I`、TTY 判断、敏感值脱敏和 setup 阶段展示的 Click CLI 项目。
+ChatStyle 是可复用的 CLI 交互风格和 runtime 包，适合需要统一 prompt、缺参补问、`-i/-I`、TTY 判断、敏感值脱敏和 flow 阶段展示的 Click CLI 项目。
 
 ## 核心模块
 
 - `chatstyle.prompt`
 - `chatstyle.choice`
 - `chatstyle.output`
+- `chatstyle.flow`
 - `chatstyle.mask`
 - `chatstyle.setup`
 - `chatstyle.schema`

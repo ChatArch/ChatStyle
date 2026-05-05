@@ -76,7 +76,8 @@ SCHEMA = CommandSchema(
 约定：
 
 - 通用标题和说明使用 `chatstyle.output`。
-- setup 阶段展示使用 `chatstyle.setup`。
+- 流程阶段展示使用 `chatstyle.flow`。
+- setup 命令如需场景化命名，可使用 `chatstyle.setup` wrapper。
 - setup 流程至少区分 start、stage、success、warning、failure。
 - 涉及 sudo 或高风险命令时，默认只打印建议命令，不直接执行。
 - 配置来源优先级应在 setup 输出或文档中清晰说明。

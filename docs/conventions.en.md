@@ -76,7 +76,8 @@ Rules:
 Rules:
 
 - Use `chatstyle.output` for common headings and notes.
-- Use `chatstyle.setup` for setup-stage display.
+- Use `chatstyle.flow` for flow-stage display.
+- Setup commands may use the `chatstyle.setup` wrapper when scenario naming is useful.
 - Setup flows should distinguish start, stage, success, warning, and failure.
 - For sudo or high-risk commands, print suggested commands by default instead of executing them.
 - Config source priority should be clear in setup output or docs.

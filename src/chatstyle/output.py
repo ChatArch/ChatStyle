@@ -1,6 +1,19 @@
 """Rendering helpers for CLI interaction."""
 
+from __future__ import annotations
+
+from collections.abc import Iterable
+
 import click
+
+
+_STATUS_LABELS = {
+    "info": "INFO",
+    "success": "OK",
+    "warning": "WARN",
+    "error": "ERROR",
+    "failure": "ERROR",
+}
 
 
 def get_style():
@@ -16,7 +29,9 @@ def _get_console():
     return Console(stderr=True)
 
 
-def _render_heading(title, subtitle=None):
+def render_heading(title: str, subtitle: str | None = None) -> None:
+    """Render a generic CLI section heading."""
+
     console = _get_console()
     if not console:
         if subtitle:
@@ -44,9 +59,61 @@ def _render_heading(title, subtitle=None):
     )
 
 
-def _render_note(message):
+def render_note(message: str) -> None:
+    """Render a low-emphasis note."""
+
     console = _get_console()
     if not console:
         click.echo(message, err=True)
         return
     console.print(f"[dim]{message}[/dim]")
+
+
+def render_status(kind: str, message: str, *, err: bool | None = None) -> None:
+    """Render a business-neutral status line.
+
+    ``kind`` is intentionally small and generic; downstream projects own
+    product-specific meaning and recovery suggestions.
+    """
+
+    normalized = kind.lower()
+    label = _STATUS_LABELS.get(normalized, normalized.upper())
+    if err is None:
+        err = normalized in {"warning", "error", "failure"}
+    click.echo(f"[{label}] {message}", err=err)
+
+
+def render_suggested_commands(
+    commands: Iterable[str],
+    *,
+    heading: str = "Suggested Commands",
+    description: str | None = None,
+) -> None:
+    """Render commands the user may run manually.
+
+    The helper only prints commands. It never executes them.
+    """
+
+    render_heading(heading, description)
+    for command in commands:
+        click.echo(command)
+
+
+def render_priority_chain(items: Iterable[str], *, label: str = "Priority") -> None:
+    """Render a generic priority chain such as CLI > env > config > default."""
+
+    render_note(f"{label}: " + " > ".join(items))
+
+
+_render_heading = render_heading
+_render_note = render_note
+
+
+__all__ = [
+    "get_style",
+    "render_heading",
+    "render_note",
+    "render_priority_chain",
+    "render_status",
+    "render_suggested_commands",
+]

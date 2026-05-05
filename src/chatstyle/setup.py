@@ -1,47 +1,53 @@
-"""Setup-stage display helpers."""
+"""Setup-stage compatibility wrappers.
+
+New code should prefer ``chatstyle.flow`` / ``chatstyle.output`` helpers.
+The setup names remain as scenario wrappers because setup commands are a
+common consumer, but this module does not execute installs or write config.
+"""
 
 from __future__ import annotations
 
 from collections.abc import Iterable
 
-import click
-
-from .output import _render_heading, _render_note
+from .flow import (
+    render_commands,
+    render_failure,
+    render_flow_start,
+    render_priority_chain,
+    render_stage,
+    render_success,
+    render_warning,
+)
 
 
 def setup_start(name: str) -> None:
-    _render_heading("Setup", f"Start {name} setup")
+    render_flow_start(f"{name} setup", title="Setup")
 
 
 def setup_stage(message: str) -> None:
-    click.echo(message, err=True)
+    render_stage(message)
 
 
 def setup_success(message: str) -> None:
-    click.echo(message)
+    render_success(message)
 
 
 def setup_warning(message: str) -> None:
-    click.echo(message, err=True)
+    render_warning(message)
 
 
 def setup_failure(message: str) -> None:
-    click.echo(message, err=True)
+    render_failure(message)
 
 
 def setup_suggested_commands(commands: Iterable[str], *, heading: str | None = None) -> None:
     """Print commands users should run manually when setup cannot execute them."""
 
-    if heading:
-        _render_heading("Suggested Commands", heading)
-    else:
-        _render_heading("Suggested Commands")
-    for command in commands:
-        click.echo(command)
+    render_commands(commands, description=heading)
 
 
 def setup_config_priority(items: Iterable[str]) -> None:
-    _render_note("Config priority: " + " > ".join(items))
+    render_priority_chain(items, label="Config priority")
 
 
 __all__ = [

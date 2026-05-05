@@ -13,7 +13,7 @@ ChatStyle 负责“如何收集、校验和展示通用 CLI 输入”，不负�
 - 缺参补问策略。
 - prompt、choice、confirm 和 checkbox 原语。
 - 默认值、敏感值、字段校验和跨字段约束。
-- 通用输出、setup 阶段展示和建议命令展示。
+- 通用输出、flow 阶段展示和建议命令展示。
 
 不包含：
 
@@ -32,8 +32,9 @@ ChatStyle 负责“如何收集、校验和展示通用 CLI 输入”，不负�
 - `chatstyle.prompt`：text、path、confirm、select、checkbox prompt 原语。
 - `chatstyle.choice`：choice、separator 和 questionary adapter。
 - `chatstyle.mask`：敏感值脱敏、当前值提示和敏感输入。
-- `chatstyle.output`：标题、提示和 Rich/click fallback 展示。
-- `chatstyle.setup`：setup 阶段、建议命令和配置优先级展示。
+- `chatstyle.output`：标题、提示、状态、建议命令、优先级链和 Rich/click fallback 展示。
+- `chatstyle.flow`：流程阶段、结果和建议命令展示。
+- `chatstyle.setup`：setup 场景兼容 wrapper。
 - `chatstyle.constants`：共享 `-i/-I` 文案、`BACK_VALUE` 和 checkbox indicator。
 
 更多职责说明见 [模块板块](modules.md)，行为规范见 [交互约定](conventions.md)，维护规则见 [开发规范](development.md)。

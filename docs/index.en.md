@@ -1,12 +1,13 @@
 # ChatStyle Docs
 
-ChatStyle is a reusable CLI interaction style and runtime package for Click CLIs that need consistent prompts, missing-argument recovery, `-i/-I`, TTY handling, secret masking, and setup-stage display.
+ChatStyle is a reusable CLI interaction style and runtime package for Click CLIs that need consistent prompts, missing-argument recovery, `-i/-I`, TTY handling, secret masking, and flow-stage display.
 
 ## Core Modules
 
 - `chatstyle.prompt`
 - `chatstyle.choice`
 - `chatstyle.output`
+- `chatstyle.flow`
 - `chatstyle.mask`
 - `chatstyle.setup`
 - `chatstyle.schema`

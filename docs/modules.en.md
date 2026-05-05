@@ -1,6 +1,6 @@
 # Modules
 
-ChatStyle is split into input declaration, interactive policy, prompts, output display, secret masking, and setup display. Modules stay generic and do not include ChatTool business logic.
+ChatStyle is split into input declaration, interactive policy, prompts, output display, secret masking, and flow display. Modules stay generic and do not include ChatTool business logic.
 
 ## Command Schema Runtime
 
@@ -62,11 +62,13 @@ Module:
 
 Purpose:
 
-- Render headings.
-- Render notes.
-- Provide future common status, summary, table, and key-value display helpers.
+- `render_heading()` for common headings.
+- `render_note()` for low-emphasis notes.
+- `render_status()` for business-neutral info/success/warning/error status lines.
+- `render_suggested_commands()` for commands users may run manually, without executing them.
+- `render_priority_chain()` for config or resolution priority chains.
 
-Rich is optional. Click fallback is required.
+Rich is optional. Click fallback is required. Output helpers only render; they do not parse business errors or execute commands.
 
 ## Mask And Sensitive Input
 
@@ -80,16 +82,19 @@ Purpose:
 - Format current secret hints.
 - Prompt for sensitive values while allowing empty input to keep the current value.
 
-## Setup Display
+## Flow Display
 
-Module:
+Modules:
 
+- `chatstyle.flow`
 - `chatstyle.setup`
 
 Purpose:
 
-- Display setup start, stage, success, warning, and failure messages.
-- Print commands users should run manually.
-- Display config source priority.
+- `render_flow_start()` for starting a multi-step CLI flow.
+- `render_stage()` for the current stage.
+- `render_success()` / `render_warning()` / `render_failure()` for generic results.
+- `render_commands()` for commands users may run manually.
+- `render_priority_chain()` for config-source or resolution priority.
 
-This module does not install dependencies, check environments, or write configuration.
+`flow` does not install dependencies, execute system commands, call remote APIs, check environments, or write configuration. `setup` remains a setup-scenario compatibility wrapper backed by generic `flow` / `output` helpers.

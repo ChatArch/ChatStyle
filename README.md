@@ -17,7 +17,7 @@
 
 # ChatStyle
 
-ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、mask、setup 展示、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
+ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、flow、mask、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
 
 当前版本仍是 `0.1.0`，用于本地开发和后续发版准备。
 
@@ -25,9 +25,10 @@ ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时�
 
 - `chatstyle.prompt`：文本、路径、确认、单选、多选 prompt。
 - `chatstyle.choice`：choice、separator 和 questionary fallback 适配。
-- `chatstyle.output`：标题、提示、Rich/click fallback 展示。
+- `chatstyle.output`：标题、提示、状态、建议命令、优先级链和 Rich/click fallback 展示。
 - `chatstyle.mask`：敏感值脱敏和敏感输入。
-- `chatstyle.setup`：setup 阶段输出、建议命令和配置优先级展示。
+- `chatstyle.flow`：流程阶段、结果、建议命令和配置优先级展示。
+- `chatstyle.setup`：setup 场景兼容 wrapper，底层委托到通用 flow/output。
 - `chatstyle.schema` / `chatstyle.resolve`：声明式命令输入 schema 与补问解析。
 - `chatstyle.click`：Click 的 `-i/-I` option 接入。
 - `chatstyle.interactive` / `chatstyle.errors`：TTY、interactive 策略和错误 helper。
@@ -42,9 +43,9 @@ ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时�
 
 `prompt` 和 `choice` 提供文本输入、路径输入、确认、单选、多选、全选控制和 choice/separator 构造。`questionary`、`prompt_toolkit` 延迟导入，不安装时 fallback 到 Click。
 
-### Output And Setup
+### Output And Flow
 
-`output` 负责通用标题和提示展示，Rich 可用时使用 Rich，不可用时 fallback 到 Click。`setup` 负责安装向导类命令的阶段输出、建议命令和配置优先级展示。
+`output` 负责通用标题、提示、状态、建议命令和优先级链展示，Rich 可用时使用 Rich，不可用时 fallback 到 Click。`flow` 负责多步骤 CLI 流程的阶段、成功、警告、失败展示。`setup` 只保留为 setup 场景 wrapper，不作为核心抽象。
 
 ### Mask And Interactive Policy
 

@@ -3,6 +3,7 @@ import pytest
 
 from chatstyle.input import resolve_command_inputs
 from chatstyle.input import CommandConstraint, CommandField, CommandSchema
+from chatstyle.core import InteractiveResolution
 
 
 def test_resolve_command_inputs_uses_defaults_without_prompt(monkeypatch):
@@ -190,3 +191,63 @@ def test_resolve_command_inputs_prompts_checkbox_kind(monkeypatch):
     )
 
     assert values == {"items": ["a", "b"]}
+
+
+def test_resolve_command_inputs_accepts_prompt_runtime_override(monkeypatch):
+    monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
+
+    class Runtime:
+        @staticmethod
+        def ask_text(message, *, default="", password=False):
+            assert message == "name"
+            assert default == ""
+            assert password is False
+            return "adapter"
+
+    schema = CommandSchema(
+        name="demo",
+        fields=(CommandField("name", prompt="name", required=True),),
+    )
+
+    values = resolve_command_inputs(
+        schema=schema,
+        provided={"name": None},
+        interactive=None,
+        usage="Usage: demo",
+        prompt_runtime_override=Runtime,
+    )
+
+    assert values == {"name": "adapter"}
+
+
+def test_resolve_command_inputs_accepts_interactive_resolver_override():
+    def fake_resolver(*, interactive, auto_prompt_condition):
+        assert interactive is None
+        assert auto_prompt_condition is True
+        return InteractiveResolution(
+            interactive=None,
+            can_prompt=True,
+            force_interactive=False,
+            need_prompt=True,
+        )
+
+    class Runtime:
+        @staticmethod
+        def ask_text(message, *, default="", password=False):
+            return "adapter"
+
+    schema = CommandSchema(
+        name="demo",
+        fields=(CommandField("name", prompt="name", required=True),),
+    )
+
+    values = resolve_command_inputs(
+        schema=schema,
+        provided={"name": None},
+        interactive=None,
+        usage="Usage: demo",
+        prompt_runtime_override=Runtime,
+        interactive_resolver_override=fake_resolver,
+    )
+
+    assert values == {"name": "adapter"}

@@ -36,7 +36,7 @@ Excluded:
 - `chatstyle.setup`: displays setup stages, suggested commands, and config priority.
 - `chatstyle.constants`: stores shared `-i/-I` copy, `BACK_VALUE`, and checkbox indicators.
 
-See [Modules](modules.en.md) for responsibilities, [Interaction Conventions](conventions.en.md) for behavior rules, and [Development Guide](development.en.md) for maintenance rules.
+See [Modules](modules.md) for responsibilities, [Interaction Conventions](conventions.md) for behavior rules, and [Development Guide](development.md) for maintenance rules.
 
 ## CommandSchema Flow
 

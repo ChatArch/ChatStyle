@@ -17,10 +17,10 @@ ChatStyle is a reusable CLI interaction style and runtime package for Click CLIs
 
 ## Navigation
 
-- [Modules](modules.en.md): module responsibilities and boundaries.
-- [Interaction Conventions](conventions.en.md): `-i/-I`, missing arguments, prompts, secrets, and automation compatibility.
-- [Development Guide](development.en.md): API, dependency, testing, docs, and workflow rules.
-- [Interaction Runtime](interaction-runtime.en.md): runtime boundaries and downstream usage.
+- [Modules](modules.md): module responsibilities and boundaries.
+- [Interaction Conventions](conventions.md): `-i/-I`, missing arguments, prompts, secrets, and automation compatibility.
+- [Development Guide](development.md): API, dependency, testing, docs, and workflow rules.
+- [Interaction Runtime](interaction-runtime.md): runtime boundaries and downstream usage.
 - [简体中文](index.md): Chinese entrypoint.
 
 ## CommandSchema

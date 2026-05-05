@@ -10,4 +10,5 @@
 - 补充 README / README.en、mkdocs 文档、模块说明、开发规范、CI、docs deploy 和 PR preview workflow。
 - 补充 ChatArch 基础库定位、项目级 `AGENTS.md` 开发规范、交互约定和下游接入规范。
 - 将默认文档对齐为中文入口，并补齐 `.en.md` 英文镜像文档。
+- 新增 `mkdocs-static-i18n` 文档依赖，支持中文默认站点和 `/en/` 英文站点切换。
 - 增加 runtime、prompt fallback、setup display、Click integration 和 schema resolution 测试。

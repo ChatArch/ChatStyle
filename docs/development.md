@@ -43,7 +43,7 @@ ChatStyle 是独立的 CLI 交互 runtime。所有实现都应保持通用、轻
 ## 文档规范
 
 - README 负责最短说明和最小示例。
-- 默认文档使用中文；英文镜像文件使用 `.en.md` 后缀。
+- 默认文档使用中文；英文镜像文件使用 `.en.md` 后缀，并由 `mkdocs-static-i18n` 生成 `/en/`。
 - `docs/index.md` 负责中文用户入口，`docs/index.en.md` 负责英文入口。
 - `docs/modules.md` 说明板块和职责边界。
 - `docs/conventions.md` 说明交互约定。

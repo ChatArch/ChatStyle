@@ -80,7 +80,7 @@ python -m build
 - `README.md`：中文默认入口，包含 badges、安装、模块概览和最小示例。
 - `README.en.md`：英文入口。
 - `docs/index.md`：中文文档首页。
-- 默认文档使用中文；英文镜像文件使用 `.en.md` 后缀。
+- 默认文档使用中文；英文镜像文件使用 `.en.md` 后缀，并由 `mkdocs-static-i18n` 生成 `/en/`。
 - `docs/modules.md`：板块和职责边界。
 - `docs/conventions.md`：交互约定和行为规范。
 - `docs/development.md`：开发和维护规范。

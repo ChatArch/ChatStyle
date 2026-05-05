@@ -109,6 +109,12 @@ pip install -e ".[docs]"
 mkdocs serve
 ```
 
+文档使用 `mkdocs-static-i18n` 的 suffix 模式：
+
+- 中文默认站点使用 `docs/*.md`。
+- 英文站点使用 `docs/*.en.md`，构建后位于 `/en/`。
+- Material 语言切换由 i18n plugin 生成。
+
 更多内容：
 
 - `docs/modules.md`：模块板块和职责边界。

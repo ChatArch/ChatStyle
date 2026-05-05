@@ -26,6 +26,7 @@ Documentation = "https://chatarch.github.io/ChatStyle"
 docs = [
     "mkdocs>=1.4.0",
     "mkdocs-material>=9.0.0",
+    "mkdocs-static-i18n>=1.2.0",
     "mike>=2.0.0",
 ]
 dev = [
@@ -33,6 +34,7 @@ dev = [
     "pytest",
     "mkdocs>=1.4.0",
     "mkdocs-material>=9.0.0",
+    "mkdocs-static-i18n>=1.2.0",
     "mike>=2.0.0",
 ]
 

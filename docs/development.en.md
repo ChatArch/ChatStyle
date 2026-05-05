@@ -43,7 +43,7 @@ ChatStyle is an independent CLI interaction runtime. Implementations should stay
 ## Documentation
 
 - README provides the short introduction and minimal example.
-- Chinese is the default documentation language; English mirror files use the `.en.md` suffix.
+- Chinese is the default documentation language; English mirror files use the `.en.md` suffix and are built under `/en/` by `mkdocs-static-i18n`.
 - `docs/index.md` is the Chinese entrypoint and `docs/index.en.md` is the English entrypoint.
 - `docs/modules.md` explains module responsibilities.
 - `docs/conventions.md` explains interaction conventions.

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chatstyle"
 dynamic = ["version"]
-description = "Reusable CLI interaction and scaffold helpers extracted from ChatTool practices"
+description = "Reusable CLI interaction runtime and style helpers for Click applications"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["click>=8.0"]

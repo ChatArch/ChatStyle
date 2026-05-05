@@ -32,12 +32,30 @@ ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时�
 - `chatstyle.click`：Click 的 `-i/-I` option 接入。
 - `chatstyle.interactive` / `chatstyle.errors`：TTY、interactive 策略和错误 helper。
 
+## 板块
+
+### Command Schema Runtime
+
+`schema`、`resolve` 和 `click` 组成声明式命令输入层。它负责字段声明、默认值、缺参补问、字段校验、跨字段约束和 `-i/-I` 接入。
+
+### Prompt And Choice
+
+`prompt` 和 `choice` 提供文本输入、路径输入、确认、单选、多选、全选控制和 choice/separator 构造。`questionary`、`prompt_toolkit` 延迟导入，不安装时 fallback 到 Click。
+
+### Output And Setup
+
+`output` 负责通用标题和提示展示，Rich 可用时使用 Rich，不可用时 fallback 到 Click。`setup` 负责安装向导类命令的阶段输出、建议命令和配置优先级展示。
+
+### Mask And Interactive Policy
+
+`mask` 负责敏感值脱敏和敏感输入。`interactive`、`errors`、`constants` 负责 TTY 判断、interactive 状态、共享文案和错误展示。
+
 ## 安装
 
 本地开发：
 
 ```bash
-pip install -e /home/rexwzh/workspace/core/ChatStyle
+pip install -e ".[dev]"
 ```
 
 项目依赖：
@@ -90,6 +108,13 @@ def demo(name, output, token, interactive):
 pip install -e ".[docs]"
 mkdocs serve
 ```
+
+更多内容：
+
+- `docs/modules.md`：模块板块和职责边界。
+- `docs/conventions.md`：交互约定和行为规范。
+- `docs/development.md`：开发规范和维护规则。
+- `docs/interaction-runtime.md`：runtime 边界与下游用法。
 
 ## 本地检查
 

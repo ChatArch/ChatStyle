@@ -32,12 +32,30 @@ The current version remains `0.1.0` for local development and release preparatio
 - `chatstyle.click`: Click `-i/-I` option integration.
 - `chatstyle.interactive` / `chatstyle.errors`: TTY, interactive policy, and error helpers.
 
+## Sections
+
+### Command Schema Runtime
+
+`schema`, `resolve`, and `click` form the declarative command input layer. They handle field declaration, defaults, missing-argument prompting, field validation, cross-field constraints, and `-i/-I` integration.
+
+### Prompt And Choice
+
+`prompt` and `choice` provide text input, path input, confirmation, single select, checkbox selection, select-all controls, and choice/separator construction. `questionary` and `prompt_toolkit` are imported lazily; Click fallback keeps the package usable without them.
+
+### Output And Setup
+
+`output` provides common headings and notes with Rich/click fallback. `setup` provides setup wizard stage output, suggested commands, and config-priority display.
+
+### Mask And Interactive Policy
+
+`mask` handles secret masking and sensitive input. `interactive`, `errors`, and `constants` handle TTY detection, interactive state, shared copy, and error display.
+
 ## Install
 
 Local development:
 
 ```bash
-pip install -e /home/rexwzh/workspace/core/ChatStyle
+pip install -e ".[dev]"
 ```
 
 Project dependency:
@@ -90,6 +108,13 @@ def demo(name, output, token, interactive):
 pip install -e ".[docs]"
 mkdocs serve
 ```
+
+More docs:
+
+- `docs/modules.en.md`: module sections and boundaries.
+- `docs/conventions.en.md`: interaction conventions and behavior rules.
+- `docs/development.en.md`: development and maintenance rules.
+- `docs/interaction-runtime.en.md`: runtime boundaries and downstream usage.
 
 ## Local Checks
 

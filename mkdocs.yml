@@ -6,5 +6,12 @@ theme:
   language: zh
 nav:
   - 首页: index.md
-  - Runtime: interaction-runtime.md
+  - 模块板块: modules.md
+  - 交互约定: conventions.md
+  - 开发规范: development.md
+  - 交互 Runtime: interaction-runtime.md
   - English: index.en.md
+  - English Modules: modules.en.md
+  - English Conventions: conventions.en.md
+  - English Runtime: interaction-runtime.en.md
+  - English Development: development.en.md

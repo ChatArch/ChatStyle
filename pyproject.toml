@@ -7,13 +7,16 @@ name = "chatstyle"
 dynamic = ["version"]
 description = "Reusable CLI interaction runtime and style helpers for Click applications"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["click>=8.0"]
 authors = [{name = "Rex Wang", email = "1073853456@qq.com"}]
 license = "MIT"
 keywords = ["chatstyle", "cli", "interactive"]
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
 ]
 
@@ -23,6 +26,11 @@ Repository = "https://github.com/ChatArch/ChatStyle"
 Documentation = "https://chatarch.github.io/ChatStyle"
 
 [project.optional-dependencies]
+tui = [
+    "prompt-toolkit>=3.0.0",
+    "questionary>=2.0.0",
+    "rich>=13.0.0",
+]
 docs = [
     "mkdocs>=1.4.0",
     "mkdocs-material>=9.0.0",
@@ -32,6 +40,9 @@ docs = [
 dev = [
     "build",
     "pytest",
+    "prompt-toolkit>=3.0.0",
+    "questionary>=2.0.0",
+    "rich>=13.0.0",
     "mkdocs>=1.4.0",
     "mkdocs-material>=9.0.0",
     "mkdocs-static-i18n>=1.2.0",

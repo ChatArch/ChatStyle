@@ -98,6 +98,14 @@ pip install -e ".[dev]"
 dependencies = ["chatstyle"]
 ```
 
+可选 TUI 增强依赖：
+
+```toml
+dependencies = ["chatstyle[tui]"]
+```
+
+核心包只强依赖 Click。`rich`、`questionary`、`prompt_toolkit` 用于增强展示和选择体验；未安装时会 fallback 到 Click 文本交互。
+
 ## 最小示例
 
 ```python

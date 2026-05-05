@@ -98,6 +98,14 @@ Project dependency:
 dependencies = ["chatstyle"]
 ```
 
+Optional TUI enhancements:
+
+```toml
+dependencies = ["chatstyle[tui]"]
+```
+
+The core package only requires Click. `rich`, `questionary`, and `prompt_toolkit` improve display and selection UX; when they are not installed, ChatStyle falls back to Click text interaction.
+
 ## Minimal Example
 
 ```python

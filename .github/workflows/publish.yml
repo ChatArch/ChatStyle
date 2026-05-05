@@ -1,11 +1,19 @@
 name: Publish Package
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: pypi
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -15,7 +23,5 @@ jobs:
         run: python -m pip install --upgrade pip build
       - name: Build package
         run: python -m build
-      - name: Publish placeholder
-        run: |
-          echo "Publish workflow is intentionally scaffold-only for now."
-          echo "Add trusted publishing or upload credentials when the package release flow is finalized."
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

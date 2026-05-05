@@ -130,7 +130,7 @@ from chatstyle import (
     render_key_values,
     render_stage,
 )
-from chatstyle.prompt import ask_select
+from chatstyle.tui import ask_select
 
 
 def ask_environment(default="dev"):
@@ -162,4 +162,4 @@ def render_config_preview(config):
 - Use `-I` for automation and `-i` for manual repair or initialization.
 - Sensitive fields must use password prompts and must be masked before output.
 - Downstream projects may wrap `ask_xxx()` / `render_xxx()`, but business logic, network calls, and file writes stay outside ChatStyle.
-- Use `chatstyle.flow` for stages, plans, dry runs, and suggested commands in long-running flows.
+- Use `chatstyle.render` for stages, plans, dry runs, and suggested commands in long-running flows.

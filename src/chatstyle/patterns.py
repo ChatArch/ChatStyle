@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
-from .prompt import ask_text
+from .tui import ask_text
 
 
 MaskFunction = Callable[[str], str]

@@ -130,7 +130,7 @@ from chatstyle import (
     render_key_values,
     render_stage,
 )
-from chatstyle.prompt import ask_select
+from chatstyle.tui import ask_select
 
 
 def ask_environment(default="dev"):
@@ -162,4 +162,4 @@ def render_config_preview(config):
 - 自动化脚本使用 `-I`，人工修复和初始化使用 `-i`。
 - sensitive 字段只进入 password prompt，输出必须先 `mask_secret()`。
 - 下游项目可以封装 `ask_xxx()` / `render_xxx()`，但业务逻辑、网络请求和文件写入不放进 ChatStyle。
-- 长流程使用 `chatstyle.flow` 展示阶段、计划、dry-run 和建议命令。
+- 长流程使用 `chatstyle.render` 展示阶段、计划、dry-run 和建议命令。

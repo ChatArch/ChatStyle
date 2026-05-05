@@ -4,16 +4,12 @@ ChatStyle is a reusable CLI interaction style and runtime package for Click CLIs
 
 ## Core Modules
 
-- `chatstyle.prompt`
-- `chatstyle.choice`
-- `chatstyle.output`
-- `chatstyle.flow`
-- `chatstyle.mask`
-- `chatstyle.schema`
-- `chatstyle.resolve`
-- `chatstyle.click`
-- `chatstyle.interactive`
-- `chatstyle.errors`
+- `chatstyle.input`: input schemas, resolver, and Click integration.
+- `chatstyle.tui`: prompt and choice primitives.
+- `chatstyle.render`: output and flow display.
+- `chatstyle.security`: secret masking and sensitive input.
+- `chatstyle.core`: TTY, interactive policy, constants, and errors.
+- `chatstyle.patterns`: cross-module recipes.
 
 ## Navigation
 

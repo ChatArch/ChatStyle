@@ -56,7 +56,7 @@ ChatStyle 是 ChatArch 体系下的基础 CLI 交互 runtime。任何修改都�
 
 ## 输出约定
 
-- 通用标题、说明、状态和流程阶段提示优先使用 `chatstyle.output` / `chatstyle.flow`。
+- 通用标题、说明、状态和流程阶段提示优先使用 `chatstyle.render`。
 - Rich 可用时可以增强展示；Rich 不可用时必须有纯 Click fallback。
 - output helper 只负责表现，不解析业务错误。
 - flow helper 只展示阶段、建议命令和配置优先级，不执行安装、不检测依赖、不写配置。

@@ -4,9 +4,9 @@ from typing import Any
 
 import click
 
-from .errors import abort_if_force_without_tty
-from .interactive import resolve_interactive_mode
-from . import prompt as prompt_runtime
+from ..core import abort_if_force_without_tty
+from ..core import resolve_interactive_mode
+from ..tui import prompt as prompt_runtime
 from .schema import CommandField, CommandSchema
 
 
@@ -33,7 +33,9 @@ def _prompt_for_field(field: CommandField, current: Any):
             raise click.ClickException(f"Field '{field.name}' is missing choices.")
         return prompt_runtime.ask_select(field.prompt, list(field.choices))
     if field.kind == "checkbox":
-        return prompt_runtime.ask_checkbox(field.prompt, list(field.choices), default_values=default or [])
+        return prompt_runtime.ask_checkbox(
+            field.prompt, list(field.choices), default_values=default or []
+        )
     if field.kind == "confirm":
         return prompt_runtime.ask_confirm(
             field.prompt, default=bool(default) if default is not None else True
@@ -89,11 +91,8 @@ def resolve_command_inputs(
     promptable_missing = [
         field
         for field in schema.fields
-        if (
-            _is_empty(values.get(field.name))
-            and (field.required or field.prompt_if_missing)
-        )
-        or (field.prompt_if_missing and field.name in missing_before_defaults)
+        if field.name in missing_before_defaults
+        and (field.required or field.prompt_if_missing)
     ]
     initial_errors = _collect_errors(schema, values)
 
@@ -107,22 +106,16 @@ def resolve_command_inputs(
         usage,
     )
 
-    if (promptable_missing or initial_errors) and resolution.interactive is False:
-        raise click.ClickException(initial_errors[0] if initial_errors else usage)
-    if (
-        (promptable_missing or initial_errors)
-        and resolution.interactive is None
-        and not resolution.can_prompt
-    ):
-        message = initial_errors[0] if initial_errors else "Missing required values."
-        raise click.ClickException(f"{message}\n{usage}")
+    if initial_errors and resolution.interactive is False:
+        raise click.ClickException(initial_errors[0])
+    if initial_errors and resolution.interactive is None and not resolution.can_prompt:
+        raise click.ClickException(f"{initial_errors[0]}\n{usage}")
 
     if resolution.need_prompt:
         for field in schema.fields:
             current = values.get(field.name)
-            should_prompt = field.required and _is_empty(current)
-            should_prompt = should_prompt or (
-                field.prompt_if_missing and field.name in missing_before_defaults
+            should_prompt = field.name in missing_before_defaults and (
+                field.required or field.prompt_if_missing
             )
             if not should_prompt:
                 continue

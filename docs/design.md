@@ -353,17 +353,12 @@ ChatStyle 的主要落点是配合 `chattool pypi` / `chatpypi init` 创建 Chat
 建议长期模块边界：
 
 ```text
-chatstyle.schema       输入契约
-chatstyle.resolve      输入解析和补问流程
-chatstyle.click        Click 集成
-chatstyle.interactive  TTY 和 interactive 策略
-chatstyle.prompt       prompt 原语
-chatstyle.choice       choice 表达和 adapter
-chatstyle.mask         敏感值显示和输入
-chatstyle.output       通用输出表现
-chatstyle.flow         流程阶段、建议命令、优先级链等通用流程展示
-chatstyle.errors       CLI 错误 helper
-chatstyle.constants    共享常量
+chatstyle.input       输入契约、解析、Click 集成
+chatstyle.tui         prompt 原语、choice 表达和 adapter
+chatstyle.render      通用输出、流程阶段、建议命令、优先级链
+chatstyle.security    敏感值显示和输入
+chatstyle.core        TTY / interactive 策略、错误 helper、共享常量
+chatstyle.patterns    跨模块组合模式
 ```
 
 这里 `flow` 是核心流程展示模块；setup 类场景通过 `flow` / `output` 组合实现。

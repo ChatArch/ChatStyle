@@ -1,48 +1,26 @@
 # Modules
 
-ChatStyle is split into input declaration, interactive policy, prompts, output display, secret masking, and flow display. Modules stay generic and do not include ChatTool business logic.
+ChatStyle is split into input declaration, terminal interaction, output display, sensitive-value handling, core policy, and reusable patterns. Modules stay generic and do not include ChatTool business logic.
 
-## Command Schema Runtime
+## `chatstyle.input`
 
-Modules:
+Owns CLI input declaration, resolution, and Click integration:
 
-- `chatstyle.schema`
-- `chatstyle.resolve`
-- `chatstyle.click`
+- `CommandField`: describes one CLI field, including `required`, `default`, `kind`, validators, and more.
+- `CommandSchema`: groups one command input contract.
+- `CommandConstraint`: expresses cross-field constraints.
+- `resolve_command_inputs()`: merges explicit arguments, defaults, interactive prompts, and validation.
+- `add_interactive_option()`: attaches `--interactive/--no-interactive` and `-i/-I` to Click commands.
 
-Purpose:
+Semantic rules:
 
-- Describe CLI fields with `CommandField`.
-- Group command input with `CommandSchema`.
-- Express cross-field validation with `CommandConstraint`.
-- Merge explicit arguments, defaults, interactive prompts, and validation with `resolve_command_inputs()`.
-- Attach `--interactive/--no-interactive` and `-i/-I` to Click commands with `add_interactive_option()`.
+- A field with no default that is needed to run the command should be `required=True`.
+- A field with a default may still be `required=True`; this means a missing explicit value should enter prompt mode when TTY auto mode is available, using the default as the prompt default.
+- In non-TTY or `-I` mode, fields with defaults can use defaults directly; required fields without defaults fail fast.
 
-Use it when a CLI command has recoverable missing arguments, defaults that must match prompt display, field validators, or cross-field constraints.
+## `chatstyle.tui`
 
-## Interactive Policy
-
-Modules:
-
-- `chatstyle.interactive`
-- `chatstyle.errors`
-- `chatstyle.constants`
-
-Purpose:
-
-- Detect TTY availability.
-- Normalize Click default interactive parameters.
-- Decide whether prompting is needed.
-- Provide shared `-i/-I` copy and no-TTY error messages.
-
-## Prompt And Choice
-
-Modules:
-
-- `chatstyle.prompt`
-- `chatstyle.choice`
-
-Purpose:
+Owns terminal input primitives:
 
 - `ask_text()` for text input.
 - `ask_path()` for path input.
@@ -50,56 +28,50 @@ Purpose:
 - `ask_select()` for single selection.
 - `ask_checkbox()` for multiple selection.
 - `ask_checkbox_with_controls()` for checkbox selection with a select-all control.
-- `create_choice()` and `get_separator()` for reusable choices and separators.
+- `create_choice()` / `get_separator()` for reusable choices and separators.
 
 `questionary` and `prompt_toolkit` are imported lazily. Click fallback keeps the package usable without optional TUI dependencies.
 
-## Output Style
+## `chatstyle.render`
 
-Module:
+Owns business-neutral output and flow display:
 
-- `chatstyle.output`
-
-Purpose:
-
-- `render_heading()` for common headings.
-- `render_note()` for low-emphasis notes.
-- `render_status()` for business-neutral info/success/warning/error/skip status lines.
-- `render_info()` / `render_success()` / `render_warning()` / `render_error()` for common status shortcuts.
+- `render_heading()` / `render_note()` for headings and low-emphasis notes.
+- `render_status()` plus `render_info()` / `render_success()` / `render_warning()` / `render_error()` for status output.
 - `render_suggested_commands()` for commands users may run manually, without executing them.
 - `render_priority_chain()` for config or resolution priority chains.
 - `render_key_values()` / `render_summary()` for stable key-value summaries.
 - `render_list()` / `render_table()` for generic lists and plain-text tables.
-- `render_error_block()` for error details and usage display.
-
-Rich is optional. Click fallback is required. Output helpers only render; they do not parse business errors or execute commands.
-
-## Mask And Sensitive Input
-
-Module:
-
-- `chatstyle.mask`
-
-Purpose:
-
-- Mask tokens, passwords, API keys, app secrets, and webhook secrets.
-- Format current secret hints.
-- Prompt for sensitive values while allowing empty input to keep the current value.
-
-## Flow Display
-
-Modules:
-
-- `chatstyle.flow`
-
-Purpose:
-
-- `render_flow_start()` for starting a multi-step CLI flow.
-- `render_stage()` for the current stage.
-- `render_progress_step()` for in-progress steps.
-- `render_success()` / `render_warning()` / `render_failure()` / `render_skip()` for generic results.
-- `render_plan()` / `render_dry_run()` for plan and preview steps.
-- `render_commands()` for commands users may run manually.
+- `render_flow_start()` / `render_stage()` / `render_plan()` / `render_dry_run()` for multi-step flows.
 - `render_config_priority()` / `render_config_sources()` for config priority and source summaries.
 
-`flow` does not install dependencies, execute system commands, call remote APIs, check environments, or write configuration. Setup-like needs are composed from generic `flow` / `output` helpers, not a separate core module.
+Setup-like needs are composed from generic `render` helpers, not a separate core module.
+
+## `chatstyle.security`
+
+Owns sensitive-value handling:
+
+- `mask_secret()` masks secrets.
+- `format_current_secret()` formats `current: ****` hints.
+- `prompt_sensitive_value()` prompts for a secret while allowing empty input to keep the current value.
+
+Use it for tokens, passwords, API keys, app secrets, webhook secrets, and similar values.
+
+## `chatstyle.core`
+
+Owns low-level policy, constants, and errors:
+
+- TTY detection.
+- Tri-state interactive resolution.
+- Shared `-i/-I` copy.
+- No-TTY error messages.
+- `BACK_VALUE` and checkbox indicators.
+- Click-friendly error helpers.
+
+## `chatstyle.patterns`
+
+Owns cross-module recipes:
+
+- `resolve_value()` chooses the first usable value by priority.
+- `prompt_text_value()` prompts for text when a value is missing, with fallback support.
+- `prompt_sensitive_value_with_mask()` prompts for a sensitive value with a custom mask display.

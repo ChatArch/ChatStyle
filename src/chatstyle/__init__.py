@@ -1,8 +1,8 @@
 """Reusable CLI style and interaction helpers."""
 
-from .choice import create_choice, get_separator
-from .click import add_interactive_option
-from .constants import (
+from .tui import create_choice, get_separator
+from .input import add_interactive_option
+from .core import (
     BACK_VALUE,
     CHECKBOX_SELECTED_INDICATOR,
     CHECKBOX_UNSELECTED_INDICATOR,
@@ -10,8 +10,8 @@ from .constants import (
     INTERACTIVE_OPTION_HELP,
     MISSING_REQUIRED_NO_TTY_MESSAGE,
 )
-from .errors import abort_if_force_without_tty, abort_if_missing_without_tty
-from .flow import (
+from .core import abort_if_force_without_tty, abort_if_missing_without_tty
+from .render import (
     render_commands,
     render_config_priority,
     render_config_sources,
@@ -25,14 +25,14 @@ from .flow import (
     render_success,
     render_warning,
 )
-from .interactive import (
+from .core import (
     InteractiveResolution,
     is_interactive_available,
     normalize_interactive,
     resolve_interactive_mode,
 )
-from .mask import format_current_secret, mask_secret, prompt_sensitive_value
-from .output import (
+from .security import format_current_secret, mask_secret, prompt_sensitive_value
+from .render import (
     TableColumn,
     get_style,
     render_error,
@@ -56,7 +56,7 @@ from .patterns import (
     prompt_text_value,
     resolve_value,
 )
-from .prompt import (
+from .tui import (
     ask_checkbox,
     ask_checkbox_with_controls,
     ask_confirm,
@@ -64,8 +64,8 @@ from .prompt import (
     ask_select,
     ask_text,
 )
-from .resolve import resolve_command_inputs
-from .schema import CommandConstraint, CommandField, CommandSchema
+from .input import resolve_command_inputs
+from .input import CommandConstraint, CommandField, CommandSchema
 
 __all__ = [
     "BACK_VALUE",

@@ -349,17 +349,12 @@ Names and boundaries need discussion:
 Suggested long-term modules:
 
 ```text
-chatstyle.schema       input contract
-chatstyle.resolve      input resolution and prompt flow
-chatstyle.click        Click integration
-chatstyle.interactive  TTY and interactive policy
-chatstyle.prompt       prompt primitives
-chatstyle.choice       choice representation and adapters
-chatstyle.mask         secret display and input
-chatstyle.output       common presentation
-chatstyle.flow         flow stages, suggested commands, priority chains
-chatstyle.errors       CLI error helpers
-chatstyle.constants    shared constants
+chatstyle.input       input contract, resolution, Click integration
+chatstyle.tui         prompt primitives, choice representation, adapters
+chatstyle.render      common output, flow stages, suggested commands, priority chains
+chatstyle.security    secret display and input
+chatstyle.core        TTY / interactive policy, error helpers, shared constants
+chatstyle.patterns    cross-module recipes
 ```
 
 `flow` is the core flow-display module; setup-like scenarios are composed from `flow` / `output` helpers.

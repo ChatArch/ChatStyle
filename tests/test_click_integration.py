@@ -50,13 +50,13 @@ def test_click_command_uses_no_interactive_flag():
 
 def test_click_command_prompts_with_interactive_flag(monkeypatch):
     runner = CliRunner()
-    monkeypatch.setattr("chatstyle.interactive.is_interactive_available", lambda: True)
+    monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
 
     def fake_ask_text(message, *, default="", password=False):
         assert message == "name"
         return "alice"
 
-    monkeypatch.setattr("chatstyle.prompt.ask_text", fake_ask_text)
+    monkeypatch.setattr("chatstyle.tui.prompt.ask_text", fake_ask_text)
     result = runner.invoke(demo, ["-i"])
 
     assert result.exit_code == 0
@@ -65,12 +65,12 @@ def test_click_command_prompts_with_interactive_flag(monkeypatch):
 
 def test_click_command_default_flag_normalizes_to_auto(monkeypatch):
     runner = CliRunner()
-    monkeypatch.setattr("chatstyle.interactive.is_interactive_available", lambda: True)
+    monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
 
     def fake_ask_text(message, *, default="", password=False):
         return "bob"
 
-    monkeypatch.setattr("chatstyle.prompt.ask_text", fake_ask_text)
+    monkeypatch.setattr("chatstyle.tui.prompt.ask_text", fake_ask_text)
     result = runner.invoke(demo, [])
 
     assert result.exit_code == 0

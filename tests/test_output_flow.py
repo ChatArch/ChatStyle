@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from chatstyle.flow import (
+from chatstyle.render import (
     render_commands,
     render_config_priority,
     render_dry_run,
@@ -8,7 +8,7 @@ from chatstyle.flow import (
     render_stage,
     render_success,
 )
-from chatstyle.output import (
+from chatstyle.render import (
     TableColumn,
     render_key_values,
     render_priority_chain,
@@ -34,7 +34,7 @@ def test_render_status_routes_success_to_stdout(capsys):
 
 
 def test_render_suggested_commands_only_prints(monkeypatch, capsys):
-    monkeypatch.setattr("chatstyle.output._get_console", lambda: None)
+    monkeypatch.setattr("chatstyle.render.output._get_console", lambda: None)
 
     render_suggested_commands(["sudo systemctl restart demo"], description="Run manually")
 
@@ -45,7 +45,7 @@ def test_render_suggested_commands_only_prints(monkeypatch, capsys):
 
 
 def test_render_priority_chain(monkeypatch, capsys):
-    monkeypatch.setattr("chatstyle.output._get_console", lambda: None)
+    monkeypatch.setattr("chatstyle.render.output._get_console", lambda: None)
 
     render_priority_chain(["CLI", "ENV", "config", "default"], label="Config")
 
@@ -54,7 +54,7 @@ def test_render_priority_chain(monkeypatch, capsys):
 
 
 def test_render_key_values_and_table(monkeypatch, capsys):
-    monkeypatch.setattr("chatstyle.output._get_console", lambda: None)
+    monkeypatch.setattr("chatstyle.render.output._get_console", lambda: None)
 
     render_key_values({"name": "demo", "state": "ok"})
     render_table(
@@ -70,7 +70,7 @@ def test_render_key_values_and_table(monkeypatch, capsys):
 
 
 def test_flow_helpers_delegate_to_generic_output(monkeypatch, capsys):
-    monkeypatch.setattr("chatstyle.output._get_console", lambda: None)
+    monkeypatch.setattr("chatstyle.render.output._get_console", lambda: None)
 
     render_stage("Check environment")
     render_success("Ready")

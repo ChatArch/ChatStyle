@@ -4,16 +4,12 @@ ChatStyle 是可复用的 CLI 交互风格和 runtime 包，适合需要统一 p
 
 ## 核心模块
 
-- `chatstyle.prompt`
-- `chatstyle.choice`
-- `chatstyle.output`
-- `chatstyle.flow`
-- `chatstyle.mask`
-- `chatstyle.schema`
-- `chatstyle.resolve`
-- `chatstyle.click`
-- `chatstyle.interactive`
-- `chatstyle.errors`
+- `chatstyle.input`：输入 schema、resolver 和 Click 集成。
+- `chatstyle.tui`：prompt 与 choice 原语。
+- `chatstyle.render`：输出和 flow 展示。
+- `chatstyle.security`：敏感值脱敏和敏感输入。
+- `chatstyle.core`：TTY、interactive 策略、常量和错误。
+- `chatstyle.patterns`：跨模块组合模式。
 
 ## 文档导航
 

@@ -23,14 +23,48 @@ ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时�
 
 ## 能力
 
-- `chatstyle.prompt`：文本、路径、确认、单选、多选 prompt。
-- `chatstyle.choice`：choice、separator 和 questionary fallback 适配。
-- `chatstyle.output`：标题、提示、状态、建议命令、优先级链、表格、列表、摘要和 Rich/click fallback 展示。
-- `chatstyle.mask`：敏感值脱敏和敏感输入。
-- `chatstyle.flow`：流程开始、阶段、进度、结果、计划、dry-run、建议命令和配置来源展示。
-- `chatstyle.schema` / `chatstyle.resolve`：声明式命令输入 schema 与补问解析。
-- `chatstyle.click`：Click 的 `-i/-I` option 接入。
-- `chatstyle.interactive` / `chatstyle.errors`：TTY、interactive 策略和错误 helper。
+- `chatstyle.input`：命令输入声明、缺参补问解析和 Click `-i/-I` 接入。
+- `chatstyle.tui`：文本、路径、确认、单选、多选 prompt，以及 choice/separator 适配。
+- `chatstyle.render`：标题、提示、状态、建议命令、表格、列表、摘要和多步骤 flow 展示。
+- `chatstyle.security`：敏感值脱敏、当前值提示和敏感输入。
+- `chatstyle.core`：TTY、interactive 三态策略、共享常量和错误 helper。
+- `chatstyle.patterns`：跨模块组合模式，例如多来源值解析、文本/敏感值补问。
+
+## 代码结构
+
+ChatStyle 按使用职能组织代码，避免把所有 runtime 文件平铺在顶层。顶层 `chatstyle` 仍提供常用 API 聚合入口；需要按职能导入时，使用下面的子包。
+
+```text
+src/chatstyle/
+├── __init__.py          # 常用 public API 聚合入口，例如 CommandSchema、ask_text、render_success
+├── input/               # CLI 输入声明、解析和 Click 集成
+│   ├── schema.py        # CommandField / CommandSchema / CommandConstraint
+│   ├── resolve.py       # resolve_command_inputs：缺参补问、默认值、校验、TTY 策略
+│   └── click.py         # add_interactive_option：统一 -i/-I option
+├── tui/                 # 终端交互输入原语
+│   ├── prompt.py        # text/path/confirm/select/checkbox prompt
+│   └── choice.py        # choice、separator、questionary adapter
+├── render/              # 业务中立的输出和流程展示
+│   ├── output.py        # heading、note、status、table、summary、suggested commands
+│   └── flow.py          # stage、plan、dry-run、config priority/source
+├── security/            # 敏感值处理
+│   └── mask.py          # mask_secret、current secret hint、secret prompt
+├── core/                # 底层策略和共享常量
+│   ├── constants.py     # -i/-I 文案、BACK_VALUE、checkbox indicator
+│   ├── interactive.py   # TTY 检测和 interactive 三态解析
+│   └── errors.py        # Click 友好的错误 helper
+└── patterns.py          # 跨模块组合模式：多来源值解析、文本/敏感值补问
+```
+
+推荐导入方式：
+
+```python
+from chatstyle import CommandField, CommandSchema, resolve_command_inputs
+from chatstyle.input import add_interactive_option
+from chatstyle.tui import ask_select
+from chatstyle.render import render_success
+from chatstyle.security import mask_secret
+```
 
 ## 板块
 

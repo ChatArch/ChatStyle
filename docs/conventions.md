@@ -37,6 +37,8 @@ SCHEMA = CommandSchema(
 
 - recoverable 参数不要在 Click 层写成 `required=True`，否则 callback 前会被 Click 拦截。
 - 默认值应来自 `default` 或 `default_factory`，并和 prompt 展示保持一致。
+- `required=True` 表示“缺少显式输入时需要关注/补问”，不等于“没有默认值”；有默认值的 required 字段在 TTY 自动模式下也应进入 prompt。
+- 非 TTY 或 `-I` 场景下，有默认值可作为自动化 fallback；无默认值的 required 字段必须报错。
 - `prompt_if_missing=True` 用于“即使有缓存默认值，也希望用户确认或刷新”的字段。
 - 字段级校验放在 `validator`。
 - 跨字段校验放在 `CommandConstraint`。
@@ -76,8 +78,8 @@ SCHEMA = CommandSchema(
 
 约定：
 
-- 通用标题和说明使用 `chatstyle.output`。
-- 流程阶段展示使用 `chatstyle.flow`。
+- 通用标题和说明使用 `chatstyle.render`。
+- 流程阶段展示使用 `chatstyle.render`。
 - 长流程命令至少区分 start、stage、success、warning、failure。
 - 涉及 sudo 或高风险命令时，默认只打印建议命令，不直接执行。
 - 配置来源优先级应在 flow 输出或文档中清晰说明。

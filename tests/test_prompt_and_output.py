@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import click
 
-from chatstyle.mask import format_current_secret, prompt_sensitive_value
-from chatstyle.prompt import ask_checkbox, ask_select
-from chatstyle.output import render_suggested_commands
+from chatstyle.security import format_current_secret, prompt_sensitive_value
+from chatstyle.tui import ask_checkbox, ask_select
+from chatstyle.render import render_suggested_commands
 
 
 def test_ask_select_click_fallback(monkeypatch):
@@ -38,7 +38,7 @@ def test_ask_checkbox_click_fallback(monkeypatch):
 
 
 def test_prompt_sensitive_value_keeps_current(monkeypatch):
-    monkeypatch.setattr("chatstyle.mask.ask_text", lambda *args, **kwargs: "")
+    monkeypatch.setattr("chatstyle.security.mask.ask_text", lambda *args, **kwargs: "")
 
     assert format_current_secret("abcdefgh") == "current: ab****gh"
     assert prompt_sensitive_value("token", "abcdefgh") == "abcdefgh"

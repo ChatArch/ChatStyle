@@ -1,58 +1,26 @@
 # 模块板块
 
-ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏感值和 setup 展示”拆分。模块保持通用，不包含 ChatTool 业务逻辑。
+ChatStyle 按“输入声明、终端交互、输出展示、敏感值处理、底层策略、组合模式”拆分。模块保持通用，不包含 ChatTool 业务逻辑。
 
-## Command Schema Runtime
+## `chatstyle.input`
 
-相关模块：
+负责 CLI 输入声明、解析和 Click 集成：
 
-- `chatstyle.schema`
-- `chatstyle.resolve`
-- `chatstyle.click`
+- `CommandField`：描述单个 CLI 字段，包括 `required`、`default`、`kind`、validator 等。
+- `CommandSchema`：组织一个命令的输入契约。
+- `CommandConstraint`：表达跨字段约束。
+- `resolve_command_inputs()`：合并显式参数、默认值、interactive 补问和校验。
+- `add_interactive_option()`：给 Click 命令统一接入 `--interactive/--no-interactive` 与 `-i/-I`。
 
-用途：
+语义约定：
 
-- 用 `CommandField` 描述 CLI 字段。
-- 用 `CommandSchema` 组织命令输入。
-- 用 `CommandConstraint` 表达跨字段约束。
-- 用 `resolve_command_inputs()` 合并显式参数、默认值、interactive 补问和校验。
-- 用 `add_interactive_option()` 给 Click 命令统一接入 `--interactive/--no-interactive` 与 `-i/-I`。
+- 没有默认值且命令运行必须需要的字段，应声明为 `required=True`。
+- 有默认值的字段也可以声明为 `required=True`；这表示用户未显式提供时，TTY 自动模式会进入 prompt，并把默认值作为 prompt default。
+- 非 TTY 或 `-I` 场景下，有默认值的字段可直接使用默认值；无默认值的 required 字段报错。
 
-适用场景：
+## `chatstyle.tui`
 
-- 新 CLI 命令有可恢复缺参。
-- 参数默认值需要和 prompt 展示保持一致。
-- 命令需要统一支持 `-i` 强制交互和 `-I` 禁止交互。
-- 需要字段级 validator 或跨字段 constraint。
-
-## Interactive Policy
-
-相关模块：
-
-- `chatstyle.interactive`
-- `chatstyle.errors`
-- `chatstyle.constants`
-
-用途：
-
-- 判断 TTY 是否可用。
-- 归一化 Click 默认 interactive 参数。
-- 计算是否需要 prompt。
-- 提供统一 `-i/-I` 文案和 no-TTY 错误文案。
-
-边界：
-
-- 策略只处理通用 CLI 行为。
-- 不判断某个业务命令是否真的应该安装、写配置或访问远端服务。
-
-## Prompt And Choice
-
-相关模块：
-
-- `chatstyle.prompt`
-- `chatstyle.choice`
-
-用途：
+负责终端输入原语：
 
 - `ask_text()`：文本输入。
 - `ask_path()`：路径输入。
@@ -60,68 +28,50 @@ ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏�
 - `ask_select()`：单选。
 - `ask_checkbox()`：多选。
 - `ask_checkbox_with_controls()`：带全选控制的多选。
-- `create_choice()` 和 `get_separator()`：统一构造 choice 和分隔符。
+- `create_choice()` / `get_separator()`：统一构造 choice 和分隔符。
 
-实现原则：
+`questionary` 和 `prompt_toolkit` 延迟导入；不可用时 fallback 到 Click。
 
-- `questionary` 可用时使用更好的交互体验。
-- `questionary` 不可用时 fallback 到 Click 文本输入。
-- `prompt_toolkit` 相关能力延迟导入。
-- 用户取消应转成 Click 可处理的中断行为。
+## `chatstyle.render`
 
-## Output Style
+负责业务中立的输出和流程展示：
 
-相关模块：
+- `render_heading()` / `render_note()`：标题和弱提示。
+- `render_status()` 以及 `render_info()` / `render_success()` / `render_warning()` / `render_error()`：状态输出。
+- `render_suggested_commands()`：打印建议用户手动执行的命令，但不执行。
+- `render_priority_chain()`：展示配置或解析优先级链。
+- `render_key_values()` / `render_summary()`：展示稳定对齐的键值摘要。
+- `render_list()` / `render_table()`：展示通用列表和纯文本表格。
+- `render_flow_start()` / `render_stage()` / `render_plan()` / `render_dry_run()`：展示多步骤流程。
+- `render_config_priority()` / `render_config_sources()`：展示配置优先级和来源摘要。
 
-- `chatstyle.output`
+setup 类需求通过通用 `render` helper 组合实现，不单独作为核心模块。
 
-用途：
+## `chatstyle.security`
 
-- 渲染标题。
-- 渲染说明提示。
-- 未来承载 status、summary、table、key-value 等通用展示 helper。
-
-实现原则：
-
-- Rich 可用时使用 Rich。
-- Rich 不可用时 fallback 到 Click。
-- 输出 helper 只负责表现，不解析业务错误。
-
-## Mask And Sensitive Input
-
-相关模块：
-
-- `chatstyle.mask`
-
-用途：
+负责敏感值处理：
 
 - `mask_secret()`：敏感值脱敏。
 - `format_current_secret()`：生成 `current: ****` 风格提示。
 - `prompt_sensitive_value()`：敏感输入，空输入保留旧值。
 
-适用场景：
+适用于 token、password、API key、app secret、webhook secret 等。
 
-- token
-- password
-- API key
-- app secret
-- webhook secret
+## `chatstyle.core`
 
-## Setup Display
+负责底层策略、常量和错误：
 
-相关模块：
+- TTY 检测。
+- interactive 三态解析。
+- `-i/-I` help 文案。
+- no-TTY 错误文案。
+- `BACK_VALUE` 和 checkbox indicator。
+- Click 友好的错误 helper。
 
-- `chatstyle.setup`
+## `chatstyle.patterns`
 
-用途：
+负责跨模块组合模式：
 
-- setup 开始、阶段、成功、警告和失败展示。
-- 打印需要用户手动执行的建议命令。
-- 展示配置来源优先级。
-
-边界：
-
-- 不执行安装。
-- 不检测依赖。
-- 不写配置。
-- 只提供 setup 流程中的可复用展示方式。
+- `resolve_value()`：按优先级选择第一个可用值。
+- `prompt_text_value()`：文本值缺失时补问，并支持 fallback。
+- `prompt_sensitive_value_with_mask()`：敏感值缺失时补问，并展示自定义 mask。

@@ -17,20 +17,54 @@
 
 # ChatStyle
 
-ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、mask、setup 展示、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
+ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、flow、mask、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
 
 当前版本仍是 `0.1.0`，用于本地开发和后续发版准备。
 
 ## 能力
 
-- `chatstyle.prompt`：文本、路径、确认、单选、多选 prompt。
-- `chatstyle.choice`：choice、separator 和 questionary fallback 适配。
-- `chatstyle.output`：标题、提示、Rich/click fallback 展示。
-- `chatstyle.mask`：敏感值脱敏和敏感输入。
-- `chatstyle.setup`：setup 阶段输出、建议命令和配置优先级展示。
-- `chatstyle.schema` / `chatstyle.resolve`：声明式命令输入 schema 与补问解析。
-- `chatstyle.click`：Click 的 `-i/-I` option 接入。
-- `chatstyle.interactive` / `chatstyle.errors`：TTY、interactive 策略和错误 helper。
+- `chatstyle.input`：命令输入声明、缺参补问解析和 Click `-i/-I` 接入。
+- `chatstyle.tui`：文本、路径、确认、单选、多选 prompt，以及 choice/separator 适配。
+- `chatstyle.render`：标题、提示、状态、建议命令、表格、列表、摘要和多步骤 flow 展示。
+- `chatstyle.security`：敏感值脱敏、当前值提示和敏感输入。
+- `chatstyle.core`：TTY、interactive 三态策略、共享常量和错误 helper。
+- `chatstyle.patterns`：跨模块组合模式，例如多来源值解析、文本/敏感值补问。
+
+## 代码结构
+
+ChatStyle 按使用职能组织代码，避免把所有 runtime 文件平铺在顶层。顶层 `chatstyle` 仍提供常用 API 聚合入口；需要按职能导入时，使用下面的子包。
+
+```text
+src/chatstyle/
+├── __init__.py          # 常用 public API 聚合入口，例如 CommandSchema、ask_text、render_success
+├── input/               # CLI 输入声明、解析和 Click 集成
+│   ├── schema.py        # CommandField / CommandSchema / CommandConstraint
+│   ├── resolve.py       # resolve_command_inputs：缺参补问、默认值、校验、TTY 策略
+│   └── click.py         # add_interactive_option：统一 -i/-I option
+├── tui/                 # 终端交互输入原语
+│   ├── prompt.py        # text/path/confirm/select/checkbox prompt
+│   └── choice.py        # choice、separator、questionary adapter
+├── render/              # 业务中立的输出和流程展示
+│   ├── output.py        # heading、note、status、table、summary、suggested commands
+│   └── flow.py          # stage、plan、dry-run、config priority/source
+├── security/            # 敏感值处理
+│   └── mask.py          # mask_secret、current secret hint、secret prompt
+├── core/                # 底层策略和共享常量
+│   ├── constants.py     # -i/-I 文案、BACK_VALUE、checkbox indicator
+│   ├── interactive.py   # TTY 检测和 interactive 三态解析
+│   └── errors.py        # Click 友好的错误 helper
+└── patterns.py          # 跨模块组合模式：多来源值解析、文本/敏感值补问
+```
+
+推荐导入方式：
+
+```python
+from chatstyle import CommandField, CommandSchema, resolve_command_inputs
+from chatstyle.input import add_interactive_option
+from chatstyle.tui import ask_select
+from chatstyle.render import render_success
+from chatstyle.security import mask_secret
+```
 
 ## 板块
 
@@ -42,9 +76,9 @@ ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时�
 
 `prompt` 和 `choice` 提供文本输入、路径输入、确认、单选、多选、全选控制和 choice/separator 构造。`questionary`、`prompt_toolkit` 延迟导入，不安装时 fallback 到 Click。
 
-### Output And Setup
+### Output And Flow
 
-`output` 负责通用标题和提示展示，Rich 可用时使用 Rich，不可用时 fallback 到 Click。`setup` 负责安装向导类命令的阶段输出、建议命令和配置优先级展示。
+`output` 负责通用标题、提示、状态、建议命令、表格、列表、摘要和优先级链展示，Rich 可用时使用 Rich，不可用时 fallback 到 Click。`flow` 负责多步骤 CLI 流程的阶段、成功、警告、失败、计划和 dry-run 展示。setup 类需求通过通用 flow/output 组合实现，不单独作为核心模块。
 
 ### Mask And Interactive Policy
 
@@ -63,6 +97,14 @@ pip install -e ".[dev]"
 ```toml
 dependencies = ["chatstyle"]
 ```
+
+可选 TUI 增强依赖：
+
+```toml
+dependencies = ["chatstyle[tui]"]
+```
+
+核心包只强依赖 Click。`rich`、`questionary`、`prompt_toolkit` 用于增强展示和选择体验；未安装时会 fallback 到 Click 文本交互。
 
 ## 最小示例
 
@@ -117,6 +159,7 @@ mkdocs serve
 
 更多内容：
 
+- `docs/quickstart.md`：添加新 CLI 和封装新交互接口的快速开始。
 - `docs/modules.md`：模块板块和职责边界。
 - `docs/conventions.md`：交互约定和行为规范。
 - `docs/development.md`：开发规范和维护规则。

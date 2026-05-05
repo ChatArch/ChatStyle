@@ -7,7 +7,7 @@ ChatStyle 是独立的 CLI 交互 runtime。实现必须保持通用、轻量、
 - 通用交互能力放在 `src/chatstyle/`。
 - 产品命令、业务语义和第三方 API 解析不得进入 ChatStyle。
 - `CommandSchema` runtime 是核心能力，负责字段声明、补问、校验和 interactive 策略。
-- `prompt` / `output` / `setup` / `mask` 只负责通用表现，不负责业务决策。
+- `prompt` / `output` / `flow` / `mask` 只负责通用表现，不负责业务决策。
 
 ## 依赖策略
 

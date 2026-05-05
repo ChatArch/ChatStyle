@@ -4,10 +4,13 @@ from typing import Any
 
 import click
 
-from .errors import abort_if_force_without_tty
-from .interactive import resolve_interactive_mode
-from . import prompt as prompt_runtime
+from ..core import abort_if_force_without_tty
+from ..core import resolve_interactive_mode
+from ..tui import prompt as prompt_runtime
 from .schema import CommandField, CommandSchema
+
+PromptRuntime = Any
+InteractiveResolver = Any
 
 
 def _is_empty(value: Any) -> bool:
@@ -26,19 +29,23 @@ def _normalize_field_value(field: CommandField, value: Any):
     return value
 
 
-def _prompt_for_field(field: CommandField, current: Any):
+def _prompt_for_field(field: CommandField, current: Any, runtime: PromptRuntime):
     default = current if not _is_empty(current) else field.resolve_default()
     if field.kind == "select":
         if not field.choices:
             raise click.ClickException(f"Field '{field.name}' is missing choices.")
-        return prompt_runtime.ask_select(field.prompt, list(field.choices))
+        return runtime.ask_select(field.prompt, list(field.choices))
+    if field.kind == "checkbox":
+        return runtime.ask_checkbox(
+            field.prompt, list(field.choices), default_values=default or []
+        )
     if field.kind == "confirm":
-        return prompt_runtime.ask_confirm(
+        return runtime.ask_confirm(
             field.prompt, default=bool(default) if default is not None else True
         )
     if field.kind == "path":
-        return prompt_runtime.ask_path(field.prompt, default=str(default or ""))
-    return prompt_runtime.ask_text(
+        return runtime.ask_path(field.prompt, default=str(default or ""))
+    return runtime.ask_text(
         field.prompt,
         default=str(default or ""),
         password=field.sensitive,
@@ -73,6 +80,8 @@ def resolve_command_inputs(
     provided: dict[str, Any],
     interactive: bool | None,
     usage: str,
+    prompt_runtime_override: PromptRuntime | None = None,
+    interactive_resolver_override: InteractiveResolver | None = None,
 ) -> dict[str, Any]:
     values: dict[str, Any] = {}
     missing_before_defaults: set[str] = set()
@@ -87,15 +96,13 @@ def resolve_command_inputs(
     promptable_missing = [
         field
         for field in schema.fields
-        if (
-            _is_empty(values.get(field.name))
-            and (field.required or field.prompt_if_missing)
-        )
-        or (field.prompt_if_missing and field.name in missing_before_defaults)
+        if field.name in missing_before_defaults
+        and (field.required or field.prompt_if_missing)
     ]
     initial_errors = _collect_errors(schema, values)
 
-    resolution = resolve_interactive_mode(
+    resolver = interactive_resolver_override or resolve_interactive_mode
+    resolution = resolver(
         interactive=interactive,
         auto_prompt_condition=bool(promptable_missing or initial_errors),
     )
@@ -105,26 +112,21 @@ def resolve_command_inputs(
         usage,
     )
 
-    if (promptable_missing or initial_errors) and resolution.interactive is False:
-        raise click.ClickException(initial_errors[0] if initial_errors else usage)
-    if (
-        (promptable_missing or initial_errors)
-        and resolution.interactive is None
-        and not resolution.can_prompt
-    ):
-        message = initial_errors[0] if initial_errors else "Missing required values."
-        raise click.ClickException(f"{message}\n{usage}")
+    if initial_errors and resolution.interactive is False:
+        raise click.ClickException(initial_errors[0])
+    if initial_errors and resolution.interactive is None and not resolution.can_prompt:
+        raise click.ClickException(f"{initial_errors[0]}\n{usage}")
 
+    runtime = prompt_runtime_override or prompt_runtime
     if resolution.need_prompt:
         for field in schema.fields:
             current = values.get(field.name)
-            should_prompt = field.required and _is_empty(current)
-            should_prompt = should_prompt or (
-                field.prompt_if_missing and field.name in missing_before_defaults
+            should_prompt = field.name in missing_before_defaults and (
+                field.required or field.prompt_if_missing
             )
             if not should_prompt:
                 continue
-            prompted = _prompt_for_field(field, current)
+            prompted = _prompt_for_field(field, current, runtime)
             values[field.name] = _normalize_field_value(field, prompted)
 
     final_errors = _collect_errors(schema, values)

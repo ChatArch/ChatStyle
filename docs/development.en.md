@@ -9,7 +9,7 @@ ChatStyle is an independent CLI interaction runtime. Implementations should stay
 - Generic interaction helpers live under `src/chatstyle/`.
 - Product-specific commands, business semantics, and third-party API parsing must not enter ChatStyle.
 - `CommandSchema` runtime is core: field declaration, prompting, validation, and interactive policy.
-- prompt/output/setup/mask helpers handle presentation, not business decisions.
+- prompt/output/flow/mask helpers handle presentation, not business decisions.
 
 ## Dependency Strategy
 

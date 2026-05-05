@@ -17,20 +17,54 @@
 
 # ChatStyle
 
-ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, setup display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
+ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, flow display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
 The current version remains `0.1.0` for local development and release preparation.
 
 ## Features
 
-- `chatstyle.prompt`: text, path, confirm, select, and checkbox prompts.
-- `chatstyle.choice`: choice, separator, and questionary fallback adapters.
-- `chatstyle.output`: headings, notes, and Rich/click fallback display.
-- `chatstyle.mask`: secret masking and sensitive input helpers.
-- `chatstyle.setup`: setup-stage output, suggested commands, and config-priority display.
-- `chatstyle.schema` / `chatstyle.resolve`: declarative command input schema and resolution.
-- `chatstyle.click`: Click `-i/-I` option integration.
-- `chatstyle.interactive` / `chatstyle.errors`: TTY, interactive policy, and error helpers.
+- `chatstyle.input`: command input declaration, missing-value resolution, and Click `-i/-I` integration.
+- `chatstyle.tui`: text, path, confirm, select, checkbox prompts, plus choice/separator adapters.
+- `chatstyle.render`: headings, notes, status lines, suggested commands, tables, lists, summaries, and multi-step flow display.
+- `chatstyle.security`: secret masking, current-value hints, and sensitive input.
+- `chatstyle.core`: TTY checks, tri-state interactive policy, shared constants, and error helpers.
+- `chatstyle.patterns`: cross-module recipes such as multi-source value resolution and text/secret prompts.
+
+## Code Structure
+
+ChatStyle is organized by runtime responsibility instead of keeping every module flat at the package root. The top-level `chatstyle` package still aggregates common public APIs; use the subpackages below when importing by responsibility.
+
+```text
+src/chatstyle/
+├── __init__.py          # common public API aggregator, e.g. CommandSchema, ask_text, render_success
+├── input/               # CLI input declaration, resolution, and Click integration
+│   ├── schema.py        # CommandField / CommandSchema / CommandConstraint
+│   ├── resolve.py       # resolve_command_inputs: missing prompts, defaults, validation, TTY policy
+│   └── click.py         # add_interactive_option: shared -i/-I option
+├── tui/                 # terminal input primitives
+│   ├── prompt.py        # text/path/confirm/select/checkbox prompts
+│   └── choice.py        # choices, separators, questionary adapter
+├── render/              # business-neutral output and flow display
+│   ├── output.py        # headings, notes, status, tables, summaries, suggested commands
+│   └── flow.py          # stages, plans, dry runs, config priority/source display
+├── security/            # sensitive-value handling
+│   └── mask.py          # mask_secret, current-secret hints, secret prompts
+├── core/                # low-level policy and shared constants
+│   ├── constants.py     # -i/-I copy, BACK_VALUE, checkbox indicators
+│   ├── interactive.py   # TTY detection and tri-state interactive resolution
+│   └── errors.py        # Click-friendly error helpers
+└── patterns.py          # cross-module recipes: value resolution, text/secret prompts
+```
+
+Recommended imports:
+
+```python
+from chatstyle import CommandField, CommandSchema, resolve_command_inputs
+from chatstyle.input import add_interactive_option
+from chatstyle.tui import ask_select
+from chatstyle.render import render_success
+from chatstyle.security import mask_secret
+```
 
 ## Sections
 
@@ -42,9 +76,9 @@ The current version remains `0.1.0` for local development and release preparatio
 
 `prompt` and `choice` provide text input, path input, confirmation, single select, checkbox selection, select-all controls, and choice/separator construction. `questionary` and `prompt_toolkit` are imported lazily; Click fallback keeps the package usable without them.
 
-### Output And Setup
+### Output And Flow
 
-`output` provides common headings and notes with Rich/click fallback. `setup` provides setup wizard stage output, suggested commands, and config-priority display.
+`output` provides common headings, notes, status lines, suggested commands, tables, lists, summaries, and priority chains with Rich/click fallback. `flow` provides stage, success, warning, failure, plan, and dry-run display for multi-step CLI flows. Setup-like needs are composed from generic flow/output helpers, not a separate core module.
 
 ### Mask And Interactive Policy
 
@@ -63,6 +97,14 @@ Project dependency:
 ```toml
 dependencies = ["chatstyle"]
 ```
+
+Optional TUI enhancements:
+
+```toml
+dependencies = ["chatstyle[tui]"]
+```
+
+The core package only requires Click. `rich`, `questionary`, and `prompt_toolkit` improve display and selection UX; when they are not installed, ChatStyle falls back to Click text interaction.
 
 ## Minimal Example
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from .prompt import ask_text
+from ..tui import ask_text
 
 
 def mask_secret(value: str | None) -> str:

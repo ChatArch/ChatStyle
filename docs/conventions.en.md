@@ -37,6 +37,8 @@ Rules:
 
 - Do not mark recoverable Click options as `required=True`; Click would stop before the callback.
 - Defaults should come from `default` or `default_factory` and match prompt display.
+- `required=True` means “missing explicit input needs attention/prompting”; it does not mean “has no default”. A required field with a default should still prompt in TTY auto mode.
+- In non-TTY or `-I` mode, defaults can act as automation fallback; required fields without defaults must fail.
 - Use `prompt_if_missing=True` when a cached value exists but the user should confirm or refresh it.
 - Field validation belongs in `validator`.
 - Cross-field validation belongs in `CommandConstraint`.
@@ -49,6 +51,7 @@ Field-to-prompt mapping:
 - `path`: `ask_path()`
 - `select`: `ask_select()`
 - `confirm`: `ask_confirm()`
+- `checkbox`: `ask_checkbox()`
 - `int`: collect text/default first, then cast to `int`
 - `float`: collect text/default first, then cast to `float`
 
@@ -71,15 +74,15 @@ Rules:
 - If empty input keeps the old value, the prompt must say `enter to keep` or equivalent.
 - Never write raw secrets to logs, exceptions, or summaries.
 
-## Output And Setup
+## Output And Flow
 
 Rules:
 
-- Use `chatstyle.output` for common headings and notes.
-- Use `chatstyle.setup` for setup-stage display.
-- Setup flows should distinguish start, stage, success, warning, and failure.
+- Use `chatstyle.render` for common headings and notes.
+- Use `chatstyle.render` for flow-stage display.
+- Long-running flows should distinguish start, stage, success, warning, and failure.
 - For sudo or high-risk commands, print suggested commands by default instead of executing them.
-- Config source priority should be clear in setup output or docs.
+- Config source priority should be clear in flow output or docs.
 
 ## Automation Compatibility
 

@@ -1,8 +1,8 @@
 """Reusable CLI style and interaction helpers."""
 
-from .choice import create_choice, get_separator
-from .click import add_interactive_option
-from .constants import (
+from .tui import create_choice, get_separator
+from .input import add_interactive_option
+from .core import (
     BACK_VALUE,
     CHECKBOX_SELECTED_INDICATOR,
     CHECKBOX_UNSELECTED_INDICATOR,
@@ -10,16 +10,53 @@ from .constants import (
     INTERACTIVE_OPTION_HELP,
     MISSING_REQUIRED_NO_TTY_MESSAGE,
 )
-from .errors import abort_if_force_without_tty, abort_if_missing_without_tty
-from .interactive import (
+from .core import abort_if_force_without_tty, abort_if_missing_without_tty
+from .render import (
+    render_commands,
+    render_config_priority,
+    render_config_sources,
+    render_dry_run,
+    render_failure,
+    render_flow_start,
+    render_plan,
+    render_progress_step,
+    render_skip,
+    render_stage,
+    render_success,
+    render_warning,
+)
+from .core import (
     InteractiveResolution,
     is_interactive_available,
     normalize_interactive,
     resolve_interactive_mode,
 )
-from .mask import format_current_secret, mask_secret, prompt_sensitive_value
-from .output import get_style
-from .prompt import (
+from .security import format_current_secret, mask_secret, prompt_sensitive_value
+from .render import (
+    TableColumn,
+    get_style,
+    render_error,
+    render_error_block,
+    render_heading,
+    render_info,
+    render_key_values,
+    render_list,
+    render_note,
+    render_priority_chain,
+    render_progress,
+    render_section,
+    render_status,
+    render_step,
+    render_suggested_commands,
+    render_summary,
+    render_table,
+)
+from .patterns import (
+    prompt_sensitive_value_with_mask,
+    prompt_text_value,
+    resolve_value,
+)
+from .tui import (
     ask_checkbox,
     ask_checkbox_with_controls,
     ask_confirm,
@@ -27,17 +64,8 @@ from .prompt import (
     ask_select,
     ask_text,
 )
-from .resolve import resolve_command_inputs
-from .schema import CommandConstraint, CommandField, CommandSchema
-from .setup import (
-    setup_config_priority,
-    setup_failure,
-    setup_stage,
-    setup_start,
-    setup_success,
-    setup_suggested_commands,
-    setup_warning,
-)
+from .input import resolve_command_inputs
+from .input import CommandConstraint, CommandField, CommandSchema
 
 __all__ = [
     "BACK_VALUE",
@@ -47,9 +75,10 @@ __all__ = [
     "CommandField",
     "CommandSchema",
     "FORCE_INTERACTIVE_NO_TTY_MESSAGE",
-    "InteractiveResolution",
     "INTERACTIVE_OPTION_HELP",
+    "InteractiveResolution",
     "MISSING_REQUIRED_NO_TTY_MESSAGE",
+    "TableColumn",
     "add_interactive_option",
     "abort_if_force_without_tty",
     "abort_if_missing_without_tty",
@@ -67,15 +96,38 @@ __all__ = [
     "mask_secret",
     "normalize_interactive",
     "prompt_sensitive_value",
+    "prompt_sensitive_value_with_mask",
+    "prompt_text_value",
+    "render_commands",
+    "render_config_priority",
+    "render_config_sources",
+    "render_dry_run",
+    "render_error",
+    "render_error_block",
+    "render_failure",
+    "render_flow_start",
+    "render_heading",
+    "render_info",
+    "render_key_values",
+    "render_list",
+    "render_note",
+    "render_plan",
+    "render_priority_chain",
+    "render_progress",
+    "render_progress_step",
+    "render_section",
+    "render_skip",
+    "render_stage",
+    "render_status",
+    "render_step",
+    "render_success",
+    "render_suggested_commands",
+    "render_summary",
+    "render_table",
+    "render_warning",
     "resolve_command_inputs",
     "resolve_interactive_mode",
-    "setup_config_priority",
-    "setup_failure",
-    "setup_stage",
-    "setup_start",
-    "setup_success",
-    "setup_suggested_commands",
-    "setup_warning",
+    "resolve_value",
     "__version__",
 ]
 

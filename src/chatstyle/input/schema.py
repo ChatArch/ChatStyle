@@ -18,7 +18,7 @@ class CommandField:
     required: bool = False
     default: Any = None
     default_factory: Callable[[], Any] | None = None
-    choices: Sequence[str] = ()
+    choices: Sequence[Any] = ()
     sensitive: bool = False
     prompt_if_missing: bool = False
     normalizer: Callable[[Any], Any] | None = None

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import click
 
-from .constants import INTERACTIVE_OPTION_HELP
+from ..core import INTERACTIVE_OPTION_HELP
 
 
 def add_interactive_option(func):

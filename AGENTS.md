@@ -40,7 +40,7 @@ ChatStyle 是 ChatArch 体系下的基础 CLI 交互 runtime。任何修改都�
 - `choice`：choice、separator 和 questionary adapter。
 - `output`：标题、提示和 Rich/click fallback 展示。
 - `mask`：敏感值脱敏、当前值提示和敏感输入。
-- `setup`：setup 阶段展示、建议命令和配置优先级说明。
+- `flow`：流程阶段、计划、dry-run、建议命令和配置优先级说明。
 
 ## 交互约定
 
@@ -56,10 +56,10 @@ ChatStyle 是 ChatArch 体系下的基础 CLI 交互 runtime。任何修改都�
 
 ## 输出约定
 
-- 通用标题、说明、setup 阶段提示优先使用 `chatstyle.output` / `chatstyle.setup`。
+- 通用标题、说明、状态和流程阶段提示优先使用 `chatstyle.render`。
 - Rich 可用时可以增强展示；Rich 不可用时必须有纯 Click fallback。
 - output helper 只负责表现，不解析业务错误。
-- setup helper 只展示阶段、建议命令和配置优先级，不执行安装、不检测依赖、不写配置。
+- flow helper 只展示阶段、建议命令和配置优先级，不执行安装、不检测依赖、不写配置。
 
 ## 开发流程
 
@@ -91,7 +91,7 @@ python -m build
 - ChatTool、ChatArch 其他项目和 `cli-style` 模板应把 `chatstyle` 作为外部依赖。
 - 迁移期兼容入口可以保留，但实现应委托到 `chatstyle`。
 - 下游项目只负责业务默认值来源、配置读写和业务执行。
-- 通用 prompt、mask、setup 展示、`-i/-I` 和 CommandSchema 行为应回到 ChatStyle 维护。
+- 通用 prompt、mask、flow 展示、`-i/-I` 和 CommandSchema 行为应回到 ChatStyle 维护。
 
 ## Workflow 规范
 

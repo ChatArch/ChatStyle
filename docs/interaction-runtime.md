@@ -13,7 +13,7 @@ ChatStyle 负责“如何收集、校验和展示通用 CLI 输入”，不负�
 - 缺参补问策略。
 - prompt、choice、confirm 和 checkbox 原语。
 - 默认值、敏感值、字段校验和跨字段约束。
-- 通用输出、setup 阶段展示和建议命令展示。
+- 通用输出、flow 阶段展示和建议命令展示。
 
 不包含：
 
@@ -24,17 +24,12 @@ ChatStyle 负责“如何收集、校验和展示通用 CLI 输入”，不负�
 
 ## 模块映射
 
-- `chatstyle.schema`：声明 `CommandField`、`CommandSchema` 和 `CommandConstraint`。
-- `chatstyle.resolve`：合并显式参数、默认值、interactive prompt 和校验。
-- `chatstyle.click`：提供 `add_interactive_option()` 等 Click 接入 helper。
-- `chatstyle.interactive`：TTY 检测、interactive 模式归一化和 prompt 决策。
-- `chatstyle.errors`：面向 Click 的通用 abort 和错误 helper。
-- `chatstyle.prompt`：text、path、confirm、select、checkbox prompt 原语。
-- `chatstyle.choice`：choice、separator 和 questionary adapter。
-- `chatstyle.mask`：敏感值脱敏、当前值提示和敏感输入。
-- `chatstyle.output`：标题、提示和 Rich/click fallback 展示。
-- `chatstyle.setup`：setup 阶段、建议命令和配置优先级展示。
-- `chatstyle.constants`：共享 `-i/-I` 文案、`BACK_VALUE` 和 checkbox indicator。
+- `chatstyle.input`：输入契约、缺参解析、默认值、校验和 Click `-i/-I` 接入。
+- `chatstyle.tui`：text、path、confirm、select、checkbox prompt，以及 choice/separator adapter。
+- `chatstyle.render`：标题、提示、状态、建议命令、优先级链、表格、摘要和 flow 展示。
+- `chatstyle.security`：敏感值脱敏、当前值提示和敏感输入。
+- `chatstyle.core`：TTY 检测、interactive 三态、共享文案、`BACK_VALUE`、checkbox indicator 和错误 helper。
+- `chatstyle.patterns`：多来源值解析、文本值补问和敏感值补问等组合模式。
 
 更多职责说明见 [模块板块](modules.md)，行为规范见 [交互约定](conventions.md)，维护规则见 [开发规范](development.md)。
 

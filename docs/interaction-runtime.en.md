@@ -13,7 +13,7 @@ Included:
 - Missing-argument prompting policy.
 - Prompt, choice, confirm, and checkbox primitives.
 - Defaults, secrets, field validation, and cross-field constraints.
-- Common output, setup-stage display, and suggested command display.
+- Common output, flow-stage display, and suggested command display.
 
 Excluded:
 
@@ -24,17 +24,12 @@ Excluded:
 
 ## Module Map
 
-- `chatstyle.schema`: declares `CommandField`, `CommandSchema`, and `CommandConstraint`.
-- `chatstyle.resolve`: merges explicit arguments, defaults, interactive prompts, and validation.
-- `chatstyle.click`: provides Click integration helpers such as `add_interactive_option()`.
-- `chatstyle.interactive`: detects TTY, normalizes interactive mode, and decides whether to prompt.
-- `chatstyle.errors`: provides shared Click-facing abort and error helpers.
-- `chatstyle.prompt`: provides text, path, confirm, select, and checkbox prompt primitives.
-- `chatstyle.choice`: provides choice, separator, and questionary adapters.
-- `chatstyle.mask`: masks secrets, formats current-secret hints, and prompts sensitive values.
-- `chatstyle.output`: displays headings and notes with Rich/click fallback.
-- `chatstyle.setup`: displays setup stages, suggested commands, and config priority.
-- `chatstyle.constants`: stores shared `-i/-I` copy, `BACK_VALUE`, and checkbox indicators.
+- `chatstyle.input`: input contracts, missing-value resolution, defaults, validation, and Click `-i/-I` integration.
+- `chatstyle.tui`: text, path, confirm, select, checkbox prompts, plus choice/separator adapters.
+- `chatstyle.render`: headings, notes, status lines, suggested commands, priority chains, tables, summaries, and flow display.
+- `chatstyle.security`: secret masking, current-value hints, and sensitive input.
+- `chatstyle.core`: TTY detection, tri-state interactive mode, shared copy, `BACK_VALUE`, checkbox indicators, and error helpers.
+- `chatstyle.patterns`: recipes for multi-source value resolution, text prompts, and sensitive prompts.
 
 See [Modules](modules.md) for responsibilities, [Interaction Conventions](conventions.md) for behavior rules, and [Development Guide](development.md) for maintenance rules.
 

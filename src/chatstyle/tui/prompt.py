@@ -12,8 +12,8 @@ from .choice import (
     create_choice,
     get_separator,
 )
-from .output import _render_heading, _render_note, get_style
-from .constants import (
+from ..render.output import _render_heading, _render_note, get_style
+from ..core import (
     BACK_VALUE,
     CHECKBOX_SELECTED_INDICATOR,
     CHECKBOX_UNSELECTED_INDICATOR,

@@ -79,9 +79,13 @@ ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏�
 
 - `render_heading()`：渲染通用标题。
 - `render_note()`：渲染弱提示。
-- `render_status()`：渲染业务中立的 info/success/warning/error 状态。
+- `render_status()`：渲染业务中立的 info/success/warning/error/skip 状态。
+- `render_info()` / `render_success()` / `render_warning()` / `render_error()`：常用状态快捷入口。
 - `render_suggested_commands()`：打印建议用户手动执行的命令，但不执行。
 - `render_priority_chain()`：展示配置或解析优先级链。
+- `render_key_values()` / `render_summary()`：展示稳定对齐的键值摘要。
+- `render_list()` / `render_table()`：展示通用列表和纯文本表格。
+- `render_error_block()`：展示包含详情和 usage 的错误块。
 
 实现原则：
 
@@ -114,18 +118,19 @@ ChatStyle 按“输入声明、交互策略、用户提示、输出展示、敏�
 相关模块：
 
 - `chatstyle.flow`
-- `chatstyle.setup`
 
 用途：
 
 - `render_flow_start()`：展示一个多步骤 CLI 流程开始。
 - `render_stage()`：展示当前阶段。
-- `render_success()` / `render_warning()` / `render_failure()`：展示通用结果。
+- `render_progress_step()`：展示进行中的步骤。
+- `render_success()` / `render_warning()` / `render_failure()` / `render_skip()`：展示通用结果。
+- `render_plan()` / `render_dry_run()`：展示计划和预演步骤。
 - `render_commands()`：展示建议用户手动执行的命令。
-- `render_priority_chain()`：展示配置来源或解析优先级。
+- `render_config_priority()` / `render_config_sources()`：展示配置优先级和来源摘要。
 
 边界：
 
 - `flow` 不执行安装、系统命令或远端调用。
 - `flow` 不检测依赖、不写配置。
-- `setup` 只是 setup 场景兼容 wrapper，底层委托到通用 `flow` / `output`，不作为核心抽象。
+- setup 类需求通过通用 `flow` / `output` 组合实现，不单独作为核心模块。

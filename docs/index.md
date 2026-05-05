@@ -9,7 +9,6 @@ ChatStyle 是可复用的 CLI 交互风格和 runtime 包，适合需要统一 p
 - `chatstyle.output`
 - `chatstyle.flow`
 - `chatstyle.mask`
-- `chatstyle.setup`
 - `chatstyle.schema`
 - `chatstyle.resolve`
 - `chatstyle.click`

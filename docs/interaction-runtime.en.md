@@ -34,7 +34,6 @@ Excluded:
 - `chatstyle.mask`: masks secrets, formats current-secret hints, and prompts sensitive values.
 - `chatstyle.output`: displays headings, notes, status lines, suggested commands, priority chains, and Rich/click fallback.
 - `chatstyle.flow`: displays flow stages, results, and suggested commands.
-- `chatstyle.setup`: provides setup-scenario compatibility wrappers.
 - `chatstyle.constants`: stores shared `-i/-I` copy, `BACK_VALUE`, and checkbox indicators.
 
 See [Modules](modules.md) for responsibilities, [Interaction Conventions](conventions.md) for behavior rules, and [Development Guide](development.md) for maintenance rules.

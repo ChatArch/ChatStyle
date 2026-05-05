@@ -290,7 +290,7 @@ render_suggested_commands(["sudo systemctl restart demo"])
 render_priority_chain(["CLI option", "ENV", "config file", "default"])
 ```
 
-当前保留 `chatstyle.setup` 作为兼容和场景化 wrapper，而不是核心抽象。
+当前不把 `chatstyle.setup` 作为第一版公共核心；setup 类需求由通用 flow/output helper 承载。
 
 ## ChatStyle 和 chattool pypi
 
@@ -366,7 +366,7 @@ chatstyle.errors       CLI 错误 helper
 chatstyle.constants    共享常量
 ```
 
-这里 `flow` 是核心流程展示模块；`setup` 只作为场景 wrapper 保留。
+这里 `flow` 是核心流程展示模块；setup 类场景通过 `flow` / `output` 组合实现。
 
 ## 设计原则
 
@@ -392,7 +392,7 @@ ChatStyle 不知道“发布、证书、DNS、PR、setup”具体意味着什么
 
 ## 待讨论问题
 
-1. `chatstyle.setup` 是否继续保留为长期 wrapper，还是在正式发版前移出顶层导出？
+1. 是否需要在未来重新引入 `chatstyle.setup` 作为场景 wrapper？
 2. 输出层应该提供哪些稳定 API：只提供 heading/note，还是也提供 status/summary/table？
 3. `CommandSchema` 是否应该支持更丰富的 choice value/label 对象，而不是 `Sequence[str]`？
 4. `prompt_if_missing` 的命名是否准确？是否应该改成 `prompt_if_defaulted` 或 `confirm_default`？

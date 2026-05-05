@@ -49,6 +49,7 @@ SCHEMA = CommandSchema(
 - `path`：`ask_path()`
 - `select`：`ask_select()`
 - `confirm`：`ask_confirm()`
+- `checkbox`：`ask_checkbox()`
 - `int`：先按文本/default 收集，再转 `int`
 - `float`：先按文本/default 收集，再转 `float`
 
@@ -71,16 +72,15 @@ SCHEMA = CommandSchema(
 - 空输入表示保留旧值时，prompt 文案必须明确包含 `enter to keep` 或等价表达。
 - 不要把原始 secret 写入日志、异常或普通 summary。
 
-## 输出和 setup
+## 输出和流程
 
 约定：
 
 - 通用标题和说明使用 `chatstyle.output`。
 - 流程阶段展示使用 `chatstyle.flow`。
-- setup 命令如需场景化命名，可使用 `chatstyle.setup` wrapper。
-- setup 流程至少区分 start、stage、success、warning、failure。
+- 长流程命令至少区分 start、stage、success、warning、failure。
 - 涉及 sudo 或高风险命令时，默认只打印建议命令，不直接执行。
-- 配置来源优先级应在 setup 输出或文档中清晰说明。
+- 配置来源优先级应在 flow 输出或文档中清晰说明。
 
 ## 自动化兼容
 

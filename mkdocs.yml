@@ -53,6 +53,7 @@ plugins:
           nav_translations:
             首页: Home
             设计草案: Design Draft
+            快速开始: Quickstart
             模块板块: Modules
             交互约定: Interaction Conventions
             开发规范: Development Guide
@@ -83,6 +84,7 @@ extra:
 nav:
   - 首页: index.md
   - 设计草案: design.md
+  - 快速开始: quickstart.md
   - 模块板块: modules.md
   - 交互约定: conventions.md
   - 开发规范: development.md

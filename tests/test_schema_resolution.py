@@ -138,3 +138,30 @@ def test_resolve_command_inputs_prompts_for_prompt_if_missing(monkeypatch):
     )
 
     assert values == {"token": "fresh"}
+
+
+
+def test_resolve_command_inputs_prompts_checkbox_kind(monkeypatch):
+    monkeypatch.setattr("chatstyle.interactive.is_interactive_available", lambda: True)
+    monkeypatch.setattr("chatstyle.prompt.ask_checkbox", lambda *args, **kwargs: ["a", "b"])
+    schema = CommandSchema(
+        name="demo",
+        fields=(
+            CommandField(
+                "items",
+                prompt="items",
+                kind="checkbox",
+                choices=("a", "b"),
+                prompt_if_missing=True,
+            ),
+        ),
+    )
+
+    values = resolve_command_inputs(
+        schema=schema,
+        provided={"items": None},
+        interactive=None,
+        usage="Usage: demo",
+    )
+
+    assert values == {"items": ["a", "b"]}

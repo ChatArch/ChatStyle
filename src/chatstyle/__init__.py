@@ -13,8 +13,14 @@ from .constants import (
 from .errors import abort_if_force_without_tty, abort_if_missing_without_tty
 from .flow import (
     render_commands,
+    render_config_priority,
+    render_config_sources,
+    render_dry_run,
     render_failure,
     render_flow_start,
+    render_plan,
+    render_progress_step,
+    render_skip,
     render_stage,
     render_success,
     render_warning,
@@ -27,12 +33,28 @@ from .interactive import (
 )
 from .mask import format_current_secret, mask_secret, prompt_sensitive_value
 from .output import (
+    TableColumn,
     get_style,
+    render_error,
+    render_error_block,
     render_heading,
+    render_info,
+    render_key_values,
+    render_list,
     render_note,
     render_priority_chain,
+    render_progress,
+    render_section,
     render_status,
+    render_step,
     render_suggested_commands,
+    render_summary,
+    render_table,
+)
+from .patterns import (
+    prompt_sensitive_value_with_mask,
+    prompt_text_value,
+    resolve_value,
 )
 from .prompt import (
     ask_checkbox,
@@ -44,15 +66,6 @@ from .prompt import (
 )
 from .resolve import resolve_command_inputs
 from .schema import CommandConstraint, CommandField, CommandSchema
-from .setup import (
-    setup_config_priority,
-    setup_failure,
-    setup_stage,
-    setup_start,
-    setup_success,
-    setup_suggested_commands,
-    setup_warning,
-)
 
 __all__ = [
     "BACK_VALUE",
@@ -62,9 +75,10 @@ __all__ = [
     "CommandField",
     "CommandSchema",
     "FORCE_INTERACTIVE_NO_TTY_MESSAGE",
-    "InteractiveResolution",
     "INTERACTIVE_OPTION_HELP",
+    "InteractiveResolution",
     "MISSING_REQUIRED_NO_TTY_MESSAGE",
+    "TableColumn",
     "add_interactive_option",
     "abort_if_force_without_tty",
     "abort_if_missing_without_tty",
@@ -82,26 +96,38 @@ __all__ = [
     "mask_secret",
     "normalize_interactive",
     "prompt_sensitive_value",
+    "prompt_sensitive_value_with_mask",
+    "prompt_text_value",
     "render_commands",
+    "render_config_priority",
+    "render_config_sources",
+    "render_dry_run",
+    "render_error",
+    "render_error_block",
     "render_failure",
     "render_flow_start",
     "render_heading",
+    "render_info",
+    "render_key_values",
+    "render_list",
     "render_note",
+    "render_plan",
     "render_priority_chain",
+    "render_progress",
+    "render_progress_step",
+    "render_section",
+    "render_skip",
     "render_stage",
     "render_status",
+    "render_step",
     "render_success",
     "render_suggested_commands",
+    "render_summary",
+    "render_table",
     "render_warning",
     "resolve_command_inputs",
     "resolve_interactive_mode",
-    "setup_config_priority",
-    "setup_failure",
-    "setup_stage",
-    "setup_start",
-    "setup_success",
-    "setup_suggested_commands",
-    "setup_warning",
+    "resolve_value",
     "__version__",
 ]
 

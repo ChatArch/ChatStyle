@@ -3,7 +3,7 @@
 ## 2026-05-05
 
 - 初始化 ChatStyle 独立 runtime 骨架，收纳 Click-oriented interactive policy、CommandSchema、shared resolver 和 prompt primitives。
-- 新增 `chatstyle.choice`、`chatstyle.output`、`chatstyle.flow`、`chatstyle.constants`、`chatstyle.setup`。
+- 新增 `chatstyle.choice`、`chatstyle.output`、`chatstyle.flow`、`chatstyle.constants`。
 - 增强 `chatstyle.prompt`，支持 text、path、confirm、select、checkbox 和 checkbox-with-controls。
 - 增强 `chatstyle.mask`，支持敏感值 mask、当前值提示和敏感输入保留旧值。
 - 将 `CommandSchema` runtime 明确为核心能力，导出 `CommandField`、`CommandSchema`、`CommandConstraint`、`resolve_command_inputs()` 和 `add_interactive_option()`。

@@ -9,7 +9,6 @@ ChatStyle is a reusable CLI interaction style and runtime package for Click CLIs
 - `chatstyle.output`
 - `chatstyle.flow`
 - `chatstyle.mask`
-- `chatstyle.setup`
 - `chatstyle.schema`
 - `chatstyle.resolve`
 - `chatstyle.click`

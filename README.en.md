@@ -25,10 +25,9 @@ The current version remains `0.1.0` for local development and release preparatio
 
 - `chatstyle.prompt`: text, path, confirm, select, and checkbox prompts.
 - `chatstyle.choice`: choice, separator, and questionary fallback adapters.
-- `chatstyle.output`: headings, notes, status lines, suggested commands, priority chains, and Rich/click fallback display.
+- `chatstyle.output`: headings, notes, status lines, suggested commands, priority chains, tables, lists, summaries, and Rich/click fallback display.
 - `chatstyle.mask`: secret masking and sensitive input helpers.
-- `chatstyle.flow`: flow-stage output, results, suggested commands, and config-priority display.
-- `chatstyle.setup`: setup-scenario compatibility wrappers backed by generic flow/output helpers.
+- `chatstyle.flow`: flow start, stages, progress, results, plans, dry runs, suggested commands, and config-source display.
 - `chatstyle.schema` / `chatstyle.resolve`: declarative command input schema and resolution.
 - `chatstyle.click`: Click `-i/-I` option integration.
 - `chatstyle.interactive` / `chatstyle.errors`: TTY, interactive policy, and error helpers.
@@ -45,7 +44,7 @@ The current version remains `0.1.0` for local development and release preparatio
 
 ### Output And Flow
 
-`output` provides common headings, notes, status lines, suggested commands, and priority chains with Rich/click fallback. `flow` provides stage, success, warning, and failure display for multi-step CLI flows. `setup` remains only as a setup-scenario wrapper, not the core abstraction.
+`output` provides common headings, notes, status lines, suggested commands, tables, lists, summaries, and priority chains with Rich/click fallback. `flow` provides stage, success, warning, failure, plan, and dry-run display for multi-step CLI flows. Setup-like needs are composed from generic flow/output helpers, not a separate core module.
 
 ### Mask And Interactive Policy
 

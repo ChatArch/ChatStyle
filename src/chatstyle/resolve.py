@@ -32,6 +32,8 @@ def _prompt_for_field(field: CommandField, current: Any):
         if not field.choices:
             raise click.ClickException(f"Field '{field.name}' is missing choices.")
         return prompt_runtime.ask_select(field.prompt, list(field.choices))
+    if field.kind == "checkbox":
+        return prompt_runtime.ask_checkbox(field.prompt, list(field.choices), default_values=default or [])
     if field.kind == "confirm":
         return prompt_runtime.ask_confirm(
             field.prompt, default=bool(default) if default is not None else True

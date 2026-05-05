@@ -4,7 +4,7 @@ import click
 
 from chatstyle.mask import format_current_secret, prompt_sensitive_value
 from chatstyle.prompt import ask_checkbox, ask_select
-from chatstyle.setup import setup_suggested_commands
+from chatstyle.output import render_suggested_commands
 
 
 def test_ask_select_click_fallback(monkeypatch):
@@ -44,8 +44,8 @@ def test_prompt_sensitive_value_keeps_current(monkeypatch):
     assert prompt_sensitive_value("token", "abcdefgh") == "abcdefgh"
 
 
-def test_setup_suggested_commands_outputs_commands(capsys):
-    setup_suggested_commands(["sudo systemctl restart demo"], heading="Run manually")
+def test_render_suggested_commands_outputs_commands(capsys):
+    render_suggested_commands(["sudo systemctl restart demo"], description="Run manually")
 
     captured = capsys.readouterr()
     assert "Suggested Commands" in captured.err

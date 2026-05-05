@@ -64,9 +64,13 @@ Purpose:
 
 - `render_heading()` for common headings.
 - `render_note()` for low-emphasis notes.
-- `render_status()` for business-neutral info/success/warning/error status lines.
+- `render_status()` for business-neutral info/success/warning/error/skip status lines.
+- `render_info()` / `render_success()` / `render_warning()` / `render_error()` for common status shortcuts.
 - `render_suggested_commands()` for commands users may run manually, without executing them.
 - `render_priority_chain()` for config or resolution priority chains.
+- `render_key_values()` / `render_summary()` for stable key-value summaries.
+- `render_list()` / `render_table()` for generic lists and plain-text tables.
+- `render_error_block()` for error details and usage display.
 
 Rich is optional. Click fallback is required. Output helpers only render; they do not parse business errors or execute commands.
 
@@ -87,14 +91,15 @@ Purpose:
 Modules:
 
 - `chatstyle.flow`
-- `chatstyle.setup`
 
 Purpose:
 
 - `render_flow_start()` for starting a multi-step CLI flow.
 - `render_stage()` for the current stage.
-- `render_success()` / `render_warning()` / `render_failure()` for generic results.
+- `render_progress_step()` for in-progress steps.
+- `render_success()` / `render_warning()` / `render_failure()` / `render_skip()` for generic results.
+- `render_plan()` / `render_dry_run()` for plan and preview steps.
 - `render_commands()` for commands users may run manually.
-- `render_priority_chain()` for config-source or resolution priority.
+- `render_config_priority()` / `render_config_sources()` for config priority and source summaries.
 
-`flow` does not install dependencies, execute system commands, call remote APIs, check environments, or write configuration. `setup` remains a setup-scenario compatibility wrapper backed by generic `flow` / `output` helpers.
+`flow` does not install dependencies, execute system commands, call remote APIs, check environments, or write configuration. Setup-like needs are composed from generic `flow` / `output` helpers, not a separate core module.

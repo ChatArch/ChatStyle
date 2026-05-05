@@ -286,7 +286,7 @@ render_suggested_commands(["sudo systemctl restart demo"])
 render_priority_chain(["CLI option", "ENV", "config file", "default"])
 ```
 
-`chatstyle.setup` currently remains as a compatibility and scenario wrapper rather than the core abstraction.
+`chatstyle.setup` is not part of the first public core; setup-like needs are handled by generic flow/output helpers.
 
 ## ChatStyle And chattool pypi
 
@@ -362,7 +362,7 @@ chatstyle.errors       CLI error helpers
 chatstyle.constants    shared constants
 ```
 
-`flow` is the core flow-display module; `setup` remains only as a scenario wrapper.
+`flow` is the core flow-display module; setup-like scenarios are composed from `flow` / `output` helpers.
 
 ## Design Principles
 
@@ -388,7 +388,7 @@ ChatStyle does not know what publish, certificate, DNS, PR, or setup means.
 
 ## Open Questions
 
-1. Should `chatstyle.setup` remain as a long-term wrapper, or should it be removed from top-level exports before release?
+1. Should `chatstyle.setup` be reintroduced later as a scenario wrapper?
 2. What stable output APIs should exist: heading/note only, or status/summary/table as well?
 3. Should `CommandSchema` support richer choice value/label objects instead of `Sequence[str]`?
 4. Is `prompt_if_missing` the right name, or should it become `prompt_if_defaulted` / `confirm_default`?

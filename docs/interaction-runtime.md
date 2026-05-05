@@ -34,7 +34,6 @@ ChatStyle 负责“如何收集、校验和展示通用 CLI 输入”，不负�
 - `chatstyle.mask`：敏感值脱敏、当前值提示和敏感输入。
 - `chatstyle.output`：标题、提示、状态、建议命令、优先级链和 Rich/click fallback 展示。
 - `chatstyle.flow`：流程阶段、结果和建议命令展示。
-- `chatstyle.setup`：setup 场景兼容 wrapper。
 - `chatstyle.constants`：共享 `-i/-I` 文案、`BACK_VALUE` 和 checkbox indicator。
 
 更多职责说明见 [模块板块](modules.md)，行为规范见 [交互约定](conventions.md)，维护规则见 [开发规范](development.md)。

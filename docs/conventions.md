@@ -16,6 +16,7 @@ ChatStyle 统一使用三态 interactive：
 - `-I` 必须保证脚本和 CI 不会被 prompt 阻塞。
 - 非 TTY 下不得自动 prompt。
 - 强制交互但没有 TTY 时，必须使用统一 no-TTY 错误。
+- `resolve_command_inputs()` 的自动模式遵守 `CHATARCH_AUTO_PROMPT`。值为 `0`、`false`、`no` 或 `off` 时关闭自动补问；显式 `-i` 不受影响。直接使用低层 `resolve_interactive_mode()` 时可通过 `respect_auto_prompt_env=True` 选择同一策略。
 
 ## 缺参补问
 

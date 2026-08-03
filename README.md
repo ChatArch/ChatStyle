@@ -19,7 +19,7 @@
 
 ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、flow、mask、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
 
-当前版本仍是 `0.1.0`，用于本地开发和后续发版准备。
+当前版本是 `0.1.1`。
 
 ## 能力
 
@@ -82,7 +82,7 @@ from chatstyle.security import mask_secret
 
 ### Mask And Interactive Policy
 
-`mask` 负责敏感值脱敏和敏感输入。`interactive`、`errors`、`constants` 负责 TTY 判断、interactive 状态、共享文案和错误展示。
+`mask` 负责敏感值脱敏和敏感输入。`interactive`、`errors`、`constants` 负责 TTY 判断、interactive 状态、共享文案和错误展示。CommandSchema 自动模式统一遵守 `CHATARCH_AUTO_PROMPT`；值为 `0`、`false`、`no` 或 `off` 时不自动补问，显式 `-i` 仍优先。
 
 ## 安装
 

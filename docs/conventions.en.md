@@ -16,6 +16,7 @@ Rules:
 - `-I` must keep scripts and CI from blocking on prompts.
 - Non-TTY environments must not auto-prompt.
 - Forced interactive mode without TTY must use the shared no-TTY error.
+- Automatic mode in `resolve_command_inputs()` honors `CHATARCH_AUTO_PROMPT`. Values `0`, `false`, `no`, and `off` disable automatic prompts; explicit `-i` still overrides it. Direct callers of the low-level `resolve_interactive_mode()` can opt in with `respect_auto_prompt_env=True`.
 
 ## Missing Arguments
 

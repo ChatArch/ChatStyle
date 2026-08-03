@@ -76,6 +76,46 @@ def test_resolve_command_inputs_prompts_when_missing(monkeypatch):
     assert prompted == [("name", "", False)]
 
 
+def test_resolve_command_inputs_respects_disabled_auto_prompt(monkeypatch):
+    monkeypatch.setenv("CHATARCH_AUTO_PROMPT", "off")
+    monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
+    monkeypatch.setattr(
+        "chatstyle.tui.prompt.ask_text",
+        lambda *args, **kwargs: pytest.fail("automatic prompt should be disabled"),
+    )
+    schema = CommandSchema(
+        name="demo",
+        fields=(CommandField("name", prompt="name", required=True),),
+    )
+
+    with pytest.raises(click.ClickException, match="Missing required value: name"):
+        resolve_command_inputs(
+            schema=schema,
+            provided={"name": None},
+            interactive=None,
+            usage="Usage: demo",
+        )
+
+
+def test_resolve_command_inputs_explicit_interactive_overrides_env(monkeypatch):
+    monkeypatch.setenv("CHATARCH_AUTO_PROMPT", "off")
+    monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
+    monkeypatch.setattr("chatstyle.tui.prompt.ask_text", lambda *args, **kwargs: "alice")
+    schema = CommandSchema(
+        name="demo",
+        fields=(CommandField("name", prompt="name", required=True),),
+    )
+
+    values = resolve_command_inputs(
+        schema=schema,
+        provided={"name": None},
+        interactive=True,
+        usage="Usage: demo",
+    )
+
+    assert values == {"name": "alice"}
+
+
 def test_resolve_command_inputs_force_non_interactive_errors(monkeypatch):
     monkeypatch.setattr("chatstyle.core.interactive.is_interactive_available", lambda: True)
     schema = CommandSchema(

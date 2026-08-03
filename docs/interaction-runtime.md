@@ -78,7 +78,7 @@ def demo(name, output, interactive):
 - `interactive=False`：禁止交互，来自 `-I` 或 `--no-interactive`。
 - `interactive=None`：自动模式，只有缺少可恢复参数且 TTY 可用时才 prompt。
 
-非 TTY 环境必须快速失败，不能阻塞等待输入。自动化脚本应优先传齐参数或使用 `-I` 禁用 prompt。
+非 TTY 环境必须快速失败，不能阻塞等待输入。自动化脚本应优先传齐参数或使用 `-I` 禁用 prompt。`resolve_command_inputs()` 还支持通过 `CHATARCH_AUTO_PROMPT=0`（同样接受 `false`、`no`、`off`）关闭自动模式；显式 `-i` 仍强制当前命令交互。
 
 ## 依赖策略
 

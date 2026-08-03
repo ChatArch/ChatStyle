@@ -26,7 +26,9 @@ from .render import (
     render_warning,
 )
 from .core import (
+    AUTO_PROMPT_ENV_VAR,
     InteractiveResolution,
+    auto_prompt_enabled,
     is_interactive_available,
     normalize_interactive,
     resolve_interactive_mode,
@@ -68,6 +70,7 @@ from .input import resolve_command_inputs
 from .input import CommandConstraint, CommandField, CommandSchema
 
 __all__ = [
+    "AUTO_PROMPT_ENV_VAR",
     "BACK_VALUE",
     "CHECKBOX_SELECTED_INDICATOR",
     "CHECKBOX_UNSELECTED_INDICATOR",
@@ -82,6 +85,7 @@ __all__ = [
     "add_interactive_option",
     "abort_if_force_without_tty",
     "abort_if_missing_without_tty",
+    "auto_prompt_enabled",
     "ask_checkbox",
     "ask_checkbox_with_controls",
     "ask_confirm",
@@ -131,4 +135,4 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

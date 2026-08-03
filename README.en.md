@@ -19,7 +19,7 @@
 
 ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, flow display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
-The current version remains `0.1.0` for local development and release preparation.
+The current version is `0.1.1`.
 
 ## Features
 
@@ -82,7 +82,7 @@ from chatstyle.security import mask_secret
 
 ### Mask And Interactive Policy
 
-`mask` handles secret masking and sensitive input. `interactive`, `errors`, and `constants` handle TTY detection, interactive state, shared copy, and error display.
+`mask` handles secret masking and sensitive input. `interactive`, `errors`, and `constants` handle TTY detection, interactive state, shared copy, and error display. CommandSchema automatic mode honors `CHATARCH_AUTO_PROMPT`; `0`, `false`, `no`, or `off` disables automatic prompts while explicit `-i` still wins.
 
 ## Install
 

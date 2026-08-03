@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-04
+
+- `CHATARCH_AUTO_PROMPT=0/false/no/off` 现在由 ChatStyle 统一关闭自动补问；显式 `-i` 仍可强制当前命令交互。
+- 导出 `AUTO_PROMPT_ENV_VAR` 与 `auto_prompt_enabled()`，并为 CommandSchema、TTY 与显式 interactive 覆盖补充回归测试。
+- PyPI 发布 workflow 改用现有 Trusted Publisher 的 OIDC，移除长期 Twine secret。
+
 ## 2026-05-05
 
 - 初始化 ChatStyle 独立 runtime 骨架，收纳 Click-oriented interactive policy、CommandSchema、shared resolver 和 prompt primitives。

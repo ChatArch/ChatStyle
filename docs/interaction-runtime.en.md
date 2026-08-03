@@ -78,7 +78,7 @@ def demo(name, output, interactive):
 - `interactive=False`: disable prompting from `-I` or `--no-interactive`.
 - `interactive=None`: automatic mode; prompt only when recoverable values are missing and TTY is available.
 
-Non-TTY environments must fail fast instead of blocking. Automation should pass complete arguments or use `-I` to disable prompts.
+Non-TTY environments must fail fast instead of blocking. Automation should pass complete arguments or use `-I` to disable prompts. For `resolve_command_inputs()`, `CHATARCH_AUTO_PROMPT=0` (also `false`, `no`, or `off`) disables automatic mode; explicit `-i` still forces interaction for the current command.
 
 ## Dependency Strategy
 

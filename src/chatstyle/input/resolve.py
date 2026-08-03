@@ -101,11 +101,18 @@ def resolve_command_inputs(
     ]
     initial_errors = _collect_errors(schema, values)
 
-    resolver = interactive_resolver_override or resolve_interactive_mode
-    resolution = resolver(
-        interactive=interactive,
-        auto_prompt_condition=bool(promptable_missing or initial_errors),
-    )
+    auto_prompt_condition = bool(promptable_missing or initial_errors)
+    if interactive_resolver_override is None:
+        resolution = resolve_interactive_mode(
+            interactive=interactive,
+            auto_prompt_condition=auto_prompt_condition,
+            respect_auto_prompt_env=True,
+        )
+    else:
+        resolution = interactive_resolver_override(
+            interactive=interactive,
+            auto_prompt_condition=auto_prompt_condition,
+        )
     abort_if_force_without_tty(
         resolution.force_interactive,
         resolution.can_prompt,

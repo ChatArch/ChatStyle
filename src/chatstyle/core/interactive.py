@@ -6,6 +6,19 @@ import os
 import click
 
 
+AUTO_PROMPT_ENV_VAR = "CHATARCH_AUTO_PROMPT"
+_FALSE_ENV_VALUES = frozenset({"0", "false", "no", "off"})
+
+
+def auto_prompt_enabled() -> bool:
+    """Return whether automatic prompts are enabled for the current process."""
+
+    value = os.getenv(AUTO_PROMPT_ENV_VAR)
+    if value is None:
+        return True
+    return value.strip().lower() not in _FALSE_ENV_VALUES
+
+
 @dataclass
 class InteractiveResolution:
     interactive: bool | None
@@ -34,12 +47,19 @@ def resolve_interactive_mode(
     interactive: bool | None,
     *,
     auto_prompt_condition: bool,
+    respect_auto_prompt_env: bool = False,
 ) -> InteractiveResolution:
     interactive = normalize_interactive(interactive)
     can_prompt = is_interactive_available()
     force_interactive = interactive is True
+    automatic_prompt_allowed = (
+        auto_prompt_enabled() if respect_auto_prompt_env else True
+    )
     need_prompt = force_interactive or (
-        interactive is None and auto_prompt_condition and can_prompt
+        interactive is None
+        and auto_prompt_condition
+        and automatic_prompt_allowed
+        and can_prompt
     )
     return InteractiveResolution(
         interactive=interactive,

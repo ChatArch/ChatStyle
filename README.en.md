@@ -5,7 +5,7 @@
     <a href="https://github.com/ChatArch/ChatStyle/actions/workflows/ci.yml">
         <img src="https://github.com/ChatArch/ChatStyle/actions/workflows/ci.yml/badge.svg" alt="Tests" />
     </a>
-    <a href="https://chatarch.github.io/ChatStyle">
+    <a href="https://arch.gh.wzhecnu.cn/ChatStyle/">
         <img src="https://img.shields.io/badge/docs-mkdocs-blue.svg" alt="Documentation" />
     </a>
 </div>
@@ -145,6 +145,8 @@ def demo(name, output, token, interactive):
 ```
 
 ## Docs
+
+Documentation: <https://arch.gh.wzhecnu.cn/ChatStyle/en/>
 
 ```bash
 pip install -e ".[docs]"

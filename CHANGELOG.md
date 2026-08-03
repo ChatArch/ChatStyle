@@ -4,7 +4,8 @@
 
 - `CHATARCH_AUTO_PROMPT=0/false/no/off` 现在由 ChatStyle 统一关闭自动补问；显式 `-i` 仍可强制当前命令交互。
 - 导出 `AUTO_PROMPT_ENV_VAR` 与 `auto_prompt_enabled()`，并为 CommandSchema、TTY 与显式 interactive 覆盖补充回归测试。
-- PyPI 发布 workflow 改用现有 Trusted Publisher 的 OIDC，移除长期 Twine secret。
+- PyPI 发布 workflow 改用现有 Trusted Publisher/OIDC，不再读取长期 PyPI token secret。
+- 将 MkDocs、README、Preview Docs、PyPI Documentation 和仓库 About 统一到 `https://arch.gh.wzhecnu.cn/ChatStyle/`，并补齐双语语言切换与首页导航。
 
 ## 2026-05-05
 

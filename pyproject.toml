@@ -23,7 +23,7 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/ChatArch/ChatStyle"
 Repository = "https://github.com/ChatArch/ChatStyle"
-Documentation = "https://chatarch.github.io/ChatStyle"
+Documentation = "https://arch.gh.wzhecnu.cn/ChatStyle/"
 
 [project.optional-dependencies]
 tui = [

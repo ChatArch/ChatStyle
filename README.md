@@ -1,18 +1,18 @@
 <div align="center">
     <a href="https://pypi.python.org/pypi/chatstyle">
-        <img src="https://img.shields.io/pypi/v/chatstyle.svg" alt="PyPI version" />
+        <img src="https://img.shields.io/pypi/v/chatstyle.svg" alt="PyPI 版本" />
     </a>
     <a href="https://github.com/ChatArch/ChatStyle/actions/workflows/ci.yml">
-        <img src="https://github.com/ChatArch/ChatStyle/actions/workflows/ci.yml/badge.svg" alt="Tests" />
+        <img src="https://github.com/ChatArch/ChatStyle/actions/workflows/ci.yml/badge.svg" alt="测试" />
     </a>
-    <a href="https://chatarch.github.io/ChatStyle">
-        <img src="https://img.shields.io/badge/docs-mkdocs-blue.svg" alt="Documentation" />
+    <a href="https://arch.gh.wzhecnu.cn/ChatStyle/">
+        <img src="https://img.shields.io/badge/docs-mkdocs-blue.svg" alt="文档" />
     </a>
 </div>
 
 <div align="center">
 
-[English](README.en.md) | [简体中文](README.md)
+[英文版](README.en.md) | [简体中文](README.md)
 </div>
 
 # ChatStyle
@@ -145,6 +145,8 @@ def demo(name, output, token, interactive):
 ```
 
 ## 文档
+
+正式文档：<https://arch.gh.wzhecnu.cn/ChatStyle/>
 
 ```bash
 pip install -e ".[docs]"

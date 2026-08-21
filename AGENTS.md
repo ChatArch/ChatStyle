@@ -8,7 +8,7 @@ ChatStyle 是 ChatArch 体系下的基础 CLI 交互 runtime。任何修改都�
 - 代码目录：`src/chatstyle/`
 - 文档目录：`docs/`，使用 mkdocs-material 构建
 - 测试目录：`tests/`
-- 当前版本：`0.1.1`，发布前保持 tag 与版本一致
+- 当前版本：`0.2.0`，发布前保持 tag 与版本一致
 
 ## 核心原则
 

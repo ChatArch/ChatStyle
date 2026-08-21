@@ -1,0 +1,1974 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ChatArch 可复用 CLI 交互风格和 runtime 文档">
+      
+      
+        <meta name="author" content="ChatArch">
+      
+      
+        <link rel="canonical" href="https://arch.gh.wzhecnu.cn/ChatStyle/design/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../quickstart/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/design/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>设计草案 - ChatStyle 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-style" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="ChatStyle 文档" class="md-header__button md-logo" aria-label="ChatStyle 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChatStyle 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              设计草案
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/design/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ChatArch/ChatStyle" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ChatArch/ChatStyle
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  设计草案
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../quickstart/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  快速开始
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../modules/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模块板块
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../conventions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  交互约定
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../development/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  开发规范
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../interaction-runtime/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  交互运行时
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ChatStyle 文档" class="md-nav__button md-logo" aria-label="ChatStyle 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ChatStyle 文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ChatArch/ChatStyle" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ChatArch/ChatStyle
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计草案
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计草案
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        背景和意图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一句话定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计目标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设计目标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        统一行为
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        降低模板复杂度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持基础库通用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持自动化友好
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        非目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概念模型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="概念模型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Intent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-input-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Input Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation Primitives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        缺参数约定
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive 开关
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mask 和敏感值
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choice 和多选
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出风格
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="输出风格">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于 setup 的重新理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chatstyle-chattool-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatStyle 和 chattool pypi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 分层建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API 分层建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稳定公共 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        候选公共 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不应公开或应谨慎公开
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块边界草案
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设计原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可降级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自动化优先
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        声明式优先
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        业务外置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        待讨论问题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前建议
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模块板块
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交互约定
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开发规范
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交互运行时
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        背景和意图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一句话定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计目标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设计目标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        统一行为
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        降低模板复杂度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持基础库通用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持自动化友好
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        非目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概念模型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="概念模型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Intent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-input-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Input Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation Primitives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        缺参数约定
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive 开关
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mask 和敏感值
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choice 和多选
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出风格
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="输出风格">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于 setup 的重新理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chatstyle-chattool-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatStyle 和 chattool pypi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 分层建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API 分层建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稳定公共 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        候选公共 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不应公开或应谨慎公开
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块边界草案
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设计原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可降级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自动化优先
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        声明式优先
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        业务外置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        待讨论问题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前建议
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/ChatArch/ChatStyle/edit/master/docs/design.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/ChatArch/ChatStyle/raw/master/docs/design.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="cli-style">CLI Style 设计草案</h1>
+<p>本文是一份讨论稿，用来解释 ChatStyle 想统一什么、不统一什么，以及为什么这些约定对 ChatArch 后续的 <code>chatxxx</code> 工具有价值。它不是最终 API 清单，而是用来避免 X-Y 问题的设计地图。</p>
+<h2 id="_1">背景和意图</h2>
+<p>ChatArch 是一个用于沉淀各类工具的 GitHub 组织。后续会出现很多 <code>chatxxx</code> 形式的 CLI 项目，例如面向发布、文档、网络、证书、数据处理或开发流程的工具。</p>
+<p>这些 CLI 项目通常由 <code>chattool pypi</code> / <code>chatpypi init</code> 初始化。ChatStyle 的角色是在模板初始化阶段成为默认依赖，让新工具天然继承同一套 CLI 行为规范，而不是在每个项目里复制交互代码。</p>
+<p>这些工具的业务不同，但 CLI 交互问题高度重复：</p>
+<ul>
+<li>参数缺失时是否补问。</li>
+<li>什么情况下允许进入交互。</li>
+<li>自动化环境如何禁止 prompt。</li>
+<li>token、password、API key 如何展示和输入。</li>
+<li>select、checkbox、confirm 如何表现。</li>
+<li>默认值来自哪里，prompt 里显示什么。</li>
+<li>错误信息如何让用户知道下一步怎么做。</li>
+<li>新项目通过 <code>chatpypi init</code> 初始化时如何默认获得一致体验。</li>
+</ul>
+<p>ChatStyle 的核心目标不是做一个复杂 TUI 框架，也不是抽象所有可能的 CLI 框架能力，而是给 ChatArch 系列 CLI 工具提供一组小而稳定的公共交互规范和 runtime helper。只要某个能力不能被多个 <code>chatxxx</code> 工具共同复用，就不应该进入 ChatStyle。</p>
+<h2 id="_2">一句话定义</h2>
+<p>ChatStyle 是 ChatArch CLI 工具的交互规范和轻量 runtime。</p>
+<p>它应该让下游项目可以说：</p>
+<blockquote>
+<p>我只负责业务逻辑；CLI 缺参补问、交互开关、敏感值显示、多选和通用输出都按 ChatStyle 来。</p>
+</blockquote>
+<h2 id="_3">设计目标</h2>
+<h3 id="_4">统一行为</h3>
+<p>同一组织下的 CLI 工具应该在常见场景里表现一致：</p>
+<ul>
+<li><code>-i</code> 强制当前命令交互。</li>
+<li><code>-I</code> 禁止交互，适合脚本和 CI。</li>
+<li>缺少可恢复参数时，TTY 可用才自动补问。</li>
+<li>非 TTY 不阻塞等待输入。</li>
+<li>secret 展示永远 mask。</li>
+<li>select/checkbox 的交互方式一致。</li>
+</ul>
+<h3 id="_5">降低模板复杂度</h3>
+<p><code>chatpypi init</code> 生成新项目时，不应该复制一大段 prompt 和 resolver 代码。模板只需要依赖：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"click&gt;=8.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"chatstyle"</span><span class="p">]</span>
+</code></pre></div>
+<p>然后在命令里使用 ChatStyle 的公共 API。</p>
+<h3 id="_6">保持基础库通用</h3>
+<p>ChatStyle 不应该知道 ChatTool、某个 API、某个配置文件路径或某个业务命令。它只提供可复用的 CLI 交互积木。</p>
+<h3 id="_7">保持自动化友好</h3>
+<p>ChatArch 工具经常会被脚本、CI、GitHub Actions 或 cron 使用。交互体验不能牺牲自动化稳定性。</p>
+<p>因此所有 prompt 能力都必须有非交互路径：传齐参数、使用默认值、或者快速失败。</p>
+<h2 id="_8">非目标</h2>
+<p>ChatStyle 不做这些事情：</p>
+<ul>
+<li>不做完整 TUI 应用框架。</li>
+<li>不接管业务命令流程。</li>
+<li>不读取或写入下游项目配置。</li>
+<li>不执行安装、系统命令、<code>sudo</code> 或远端 API。</li>
+<li>不定义 ChatTool 专属文案。</li>
+<li>不保证每个项目的视觉品牌都完全一样。</li>
+</ul>
+<p>ChatStyle 统一的是“CLI 行为和基础表现”，不是所有业务体验。判断一个能力是否应该进入 ChatStyle 的标准是：它是不是 ChatArch 系列 CLI 工具共同需要的规范，而不是某个工具的一次性便利函数。</p>
+<h2 id="_9">概念模型</h2>
+<p>ChatStyle 可以拆成四层：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>User Intent
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  ↓
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Command Input Contract
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  ↓
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Interaction Runtime
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ↓
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Presentation Primitives
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  ↓
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Business Logic
+</code></pre></div>
+<h3 id="user-intent">User Intent</h3>
+<p>用户表达意图有三种方式：</p>
+<ul>
+<li>显式参数：<code>--name demo --token xxx</code></li>
+<li>交互回答：缺参后 prompt 输入</li>
+<li>默认值：命令、配置或环境提供的默认值</li>
+</ul>
+<p>ChatStyle 只负责把这些输入合并成一组完整 values，不决定业务如何执行。</p>
+<h3 id="command-input-contract">Command Input Contract</h3>
+<p>命令输入契约描述“这个命令需要哪些字段”。当前对应 <code>CommandSchema</code>：</p>
+<ul>
+<li><code>CommandField</code>：字段名、prompt 文案、类型、默认值、是否 required、是否 sensitive。</li>
+<li><code>CommandConstraint</code>：跨字段约束。</li>
+<li><code>CommandSchema</code>：一个命令的字段集合和约束集合。</li>
+</ul>
+<p>它的作用是让缺参补问变成声明式，而不是每个命令手写一套 if/else。</p>
+<h3 id="interaction-runtime">Interaction Runtime</h3>
+<p>Interaction runtime 处理“什么时候 prompt、如何失败、如何合并输入”：</p>
+<ul>
+<li><code>interactive=True</code>：用户明确要求交互。</li>
+<li><code>interactive=False</code>：用户明确禁止交互。</li>
+<li><code>interactive=None</code>：自动模式。</li>
+<li>TTY 可用：可以补问。</li>
+<li>TTY 不可用：不能补问，必须快速失败或使用已有默认值。</li>
+</ul>
+<h3 id="presentation-primitives">Presentation Primitives</h3>
+<p>Presentation primitives 是最底层的交互和展示积木：</p>
+<ul>
+<li>text/path input</li>
+<li>confirm</li>
+<li>select</li>
+<li>checkbox</li>
+<li>secret mask</li>
+<li>heading/note/status</li>
+<li>command suggestion</li>
+<li>priority chain</li>
+</ul>
+<p>这些能力应保持业务中立。</p>
+<h3 id="business-logic">Business Logic</h3>
+<p>业务逻辑属于下游项目，例如：</p>
+<ul>
+<li>创建 GitHub PR。</li>
+<li>发布 PyPI 包。</li>
+<li>生成证书。</li>
+<li>修改 DNS。</li>
+<li>写配置文件。</li>
+<li>调用某个 API。</li>
+</ul>
+<p>ChatStyle 不进入这一层。</p>
+<h2 id="_10">缺参数约定</h2>
+<p>缺参数处理是 ChatStyle 的核心价值之一。</p>
+<p>推荐规则：</p>
+<ol>
+<li>可恢复参数不要在 Click option 上设置 <code>required=True</code>。</li>
+<li>使用 <code>CommandField(required=True)</code> 声明业务上必需的字段。</li>
+<li>callback 内调用 <code>resolve_command_inputs()</code>。</li>
+<li>resolver 根据 interactive 策略决定补问或失败。</li>
+</ol>
+<p>示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chatstyle</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommandField</span><span class="p">,</span> <span class="n">CommandSchema</span><span class="p">,</span> <span class="n">add_interactive_option</span><span class="p">,</span> <span class="n">resolve_command_inputs</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">CommandSchema</span><span class="p">(</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">"publish"</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">fields</span><span class="o">=</span><span class="p">(</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">CommandField</span><span class="p">(</span><span class="s2">"package"</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">"package name"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">CommandField</span><span class="p">(</span><span class="s2">"repository"</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">"repository"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"pypi"</span><span class="p">),</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="n">CommandField</span><span class="p">(</span><span class="s2">"token"</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">"api token"</span><span class="p">,</span> <span class="n">sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="p">),</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">)</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"--package"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"--repository"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"--token"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nd">@add_interactive_option</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">repository</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">interactive</span><span class="p">):</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="n">values</span> <span class="o">=</span> <span class="n">resolve_command_inputs</span><span class="p">(</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        <span class="n">schema</span><span class="o">=</span><span class="n">SCHEMA</span><span class="p">,</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>        <span class="n">provided</span><span class="o">=</span><span class="p">{</span><span class="s2">"package"</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span> <span class="s2">"repository"</span><span class="p">:</span> <span class="n">repository</span><span class="p">,</span> <span class="s2">"token"</span><span class="p">:</span> <span class="n">token</span><span class="p">},</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>        <span class="n">interactive</span><span class="o">=</span><span class="n">interactive</span><span class="p">,</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>        <span class="n">usage</span><span class="o">=</span><span class="s2">"Usage: publish --package TEXT [--repository TEXT] [--token TEXT] [-i|-I]"</span><span class="p">,</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="p">)</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    <span class="n">run_publish</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div>
+<p>行为预期：</p>
+<ul>
+<li>参数齐全：直接执行。</li>
+<li>参数缺失且 TTY 可用：自动补问可恢复字段。</li>
+<li>参数缺失且 <code>-i</code>：强制补问；无 TTY 则失败。</li>
+<li>参数缺失且 <code>-I</code>：不补问，直接失败。</li>
+<li>参数缺失且非 TTY：不补问，直接失败。</li>
+</ul>
+<h2 id="interactive">Interactive 开关</h2>
+<p>ChatStyle 统一三态 interactive：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>来源</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>True</code></td>
+<td><code>-i</code> / <code>--interactive</code></td>
+<td>强制进入当前命令交互流程</td>
+</tr>
+<tr>
+<td><code>False</code></td>
+<td><code>-I</code> / <code>--no-interactive</code></td>
+<td>禁止 prompt，适合自动化</td>
+</tr>
+<tr>
+<td><code>None</code></td>
+<td>未指定</td>
+<td>自动模式，只有 TTY 可用且缺少可恢复字段时 prompt</td>
+</tr>
+</tbody>
+</table>
+<p>这里有两个重要边界：</p>
+<ul>
+<li><code>-i</code> 不是“进入全局向导”，只作用于当前命令。</li>
+<li><code>-I</code> 是自动化契约，必须保证不会阻塞。</li>
+</ul>
+<h2 id="mask">Mask 和敏感值</h2>
+<p>敏感值包括：</p>
+<ul>
+<li>token</li>
+<li>password</li>
+<li>API key</li>
+<li>app secret</li>
+<li>webhook secret</li>
+<li>private key 片段</li>
+</ul>
+<p>约定：</p>
+<ul>
+<li>输入时隐藏。</li>
+<li>展示时 mask。</li>
+<li>日志、异常、summary 不输出原文。</li>
+<li>如果空输入表示保留旧值，prompt 必须明确说明。</li>
+</ul>
+<p>例子：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>current: ab****yz
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Token (enter to keep):
+</code></pre></div>
+<h2 id="choice">Choice 和多选</h2>
+<p>ChatStyle 提供统一的 choice 表达，不要求下游项目直接依赖 questionary 的细节。</p>
+<p>原则：</p>
+<ul>
+<li><code>questionary</code> 可用时提供更好的交互体验。</li>
+<li>不可用时 fallback 到 Click。</li>
+<li>选项的 label 给人看，value 给程序用。</li>
+<li>空选项不能变成业务异常，应由调用方决定如何处理。</li>
+<li>checkbox 支持多选，但不应膨胀成复杂 TUI 状态机。</li>
+</ul>
+<h2 id="_11">输出风格</h2>
+<p>ChatStyle 的输出层应该提供通用表现，而不是业务解释。</p>
+<p>合理的通用能力：</p>
+<ul>
+<li>heading</li>
+<li>note</li>
+<li>success/warning/error/info status</li>
+<li>key-value summary</li>
+<li>suggested commands</li>
+<li>priority chain</li>
+</ul>
+<p>需要谨慎的能力：</p>
+<ul>
+<li>setup 专属 helper</li>
+<li>某个业务命令专属 summary</li>
+<li>自动执行系统命令</li>
+<li>带业务语义的错误恢复建议</li>
+</ul>
+<h3 id="setup">关于 setup 的重新理解</h3>
+<p>“setup 阶段输出、建议命令、配置优先级展示”最初来自 setup 命令场景，但这些能力并不是 setup 独有。</p>
+<p>更合理的抽象是：</p>
+<ul>
+<li>流程阶段展示：任何长流程命令都需要。</li>
+<li>建议命令展示：doctor、deploy、repair、setup 都可能需要。</li>
+<li>配置优先级展示：所有读取配置的 CLI 都可能需要。</li>
+</ul>
+<p>因此实现上应避免给 <code>setup</code> 单独开小灶。当前方向是把它们归入通用 output/flow 能力：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">render_stage</span><span class="p">(</span><span class="s2">"Check environment"</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">render_suggested_commands</span><span class="p">([</span><span class="s2">"sudo systemctl restart demo"</span><span class="p">])</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">render_priority_chain</span><span class="p">([</span><span class="s2">"CLI option"</span><span class="p">,</span> <span class="s2">"ENV"</span><span class="p">,</span> <span class="s2">"config file"</span><span class="p">,</span> <span class="s2">"default"</span><span class="p">])</span>
+</code></pre></div>
+<p>当前不把 <code>chatstyle.setup</code> 作为第一版公共核心；setup 类需求由通用 flow/output helper 承载。</p>
+<h2 id="chatstyle-chattool-pypi">ChatStyle 和 chattool pypi</h2>
+<p>ChatStyle 的主要落点是配合 <code>chattool pypi</code> / <code>chatpypi init</code> 创建 ChatArch 系列 CLI 工具。模板阶段应该只生成最少代码：</p>
+<ul>
+<li>添加 <code>chatstyle</code> 依赖。</li>
+<li>使用 Click 作为命令框架。</li>
+<li>使用 <code>CommandSchema</code> 描述输入。</li>
+<li>使用 <code>add_interactive_option()</code> 提供 <code>-i/-I</code>。</li>
+<li>使用 <code>resolve_command_inputs()</code> 完成缺参补问。</li>
+<li>使用 <code>mask_secret()</code>、select/checkbox helper 处理常见交互。</li>
+</ul>
+<p>模板不应该复制 ChatStyle 内部实现。</p>
+<h2 id="api">API 分层建议</h2>
+<h3 id="api_1">稳定公共 API</h3>
+<p>适合放在 <code>chatstyle.__init__</code>：</p>
+<ul>
+<li><code>CommandField</code></li>
+<li><code>CommandSchema</code></li>
+<li><code>CommandConstraint</code></li>
+<li><code>resolve_command_inputs</code></li>
+<li><code>add_interactive_option</code></li>
+<li><code>ask_text</code></li>
+<li><code>ask_path</code></li>
+<li><code>ask_confirm</code></li>
+<li><code>ask_select</code></li>
+<li><code>ask_checkbox</code></li>
+<li><code>mask_secret</code></li>
+</ul>
+<h3 id="api_2">候选公共 API</h3>
+<p>需要进一步讨论命名和边界：</p>
+<ul>
+<li><code>render_heading</code></li>
+<li><code>render_note</code></li>
+<li><code>render_status</code></li>
+<li><code>render_suggested_commands</code></li>
+<li><code>render_priority_chain</code></li>
+<li><code>render_flow_start</code></li>
+<li><code>render_stage</code></li>
+<li><code>render_success</code></li>
+<li><code>render_warning</code></li>
+<li><code>render_failure</code></li>
+<li><code>render_commands</code></li>
+<li><code>create_choice</code></li>
+<li><code>get_separator</code></li>
+</ul>
+<h3 id="_12">不应公开或应谨慎公开</h3>
+<ul>
+<li>下划线 helper。</li>
+<li>绑定某个业务场景的 helper。</li>
+<li>需要可选依赖对象作为参数的 API。</li>
+<li>会执行系统命令或写文件的 API。</li>
+</ul>
+<h2 id="_13">模块边界草案</h2>
+<p>建议长期模块边界：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>chatstyle.input       输入契约、解析、Click 集成
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>chatstyle.tui         prompt 原语、choice 表达和 adapter
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>chatstyle.render      通用输出、流程阶段、建议命令、优先级链
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>chatstyle.security    敏感值显示和输入
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>chatstyle.core        TTY / interactive 策略、错误 helper、共享常量
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>chatstyle.patterns    跨模块组合模式
+</code></pre></div>
+<p>这里 <code>flow</code> 是核心流程展示模块；setup 类场景通过 <code>flow</code> / <code>output</code> 组合实现。</p>
+<h2 id="_14">设计原则</h2>
+<h3 id="_15">小核心</h3>
+<p>宁愿 API 少一点，也不要把单个项目的便利函数做成基础库公共契约。</p>
+<h3 id="_16">可降级</h3>
+<p>Rich、questionary、prompt_toolkit 都是体验增强，不是运行前提。</p>
+<h3 id="_17">自动化优先</h3>
+<p>所有交互能力都必须能被显式参数或 <code>-I</code> 绕过。</p>
+<h3 id="_18">声明式优先</h3>
+<p>缺参补问和默认值尽量由 schema 描述，不在每个 command callback 里复制 if/else。</p>
+<h3 id="_19">业务外置</h3>
+<p>ChatStyle 不知道“发布、证书、DNS、PR、setup”具体意味着什么。</p>
+<h2 id="_20">待讨论问题</h2>
+<ol>
+<li>是否需要在未来重新引入 <code>chatstyle.setup</code> 作为场景 wrapper？</li>
+<li>输出层应该提供哪些稳定 API：只提供 heading/note，还是也提供 status/summary/table？</li>
+<li><code>CommandSchema</code> 是否应该支持更丰富的 choice value/label 对象，而不是 <code>Sequence[str]</code>？</li>
+<li><code>prompt_if_missing</code> 的命名是否准确？是否应该改成 <code>prompt_if_defaulted</code> 或 <code>confirm_default</code>？</li>
+<li>错误信息是否需要结构化错误码，方便自动化调用方识别？</li>
+<li><code>chatpypi init</code> 模板应该生成多复杂的示例：只展示 text/path/secret，还是也展示 select/checkbox？</li>
+<li>是否需要项目级 preset，例如 <code>standard_cli_schema()</code>，还是保持完全显式？</li>
+<li>文档中是否应该把 ChatStyle 定义为“规范优先，runtime 其次”？</li>
+</ol>
+<h2 id="_21">当前建议</h2>
+<p>短期建议：</p>
+<ul>
+<li>保留 <code>CommandSchema</code> 作为核心。</li>
+<li>强化 prompt、mask、interactive 和 Click 集成测试。</li>
+<li>将 setup 场景能力收敛到通用 flow/output API。</li>
+<li>文档优先讲概念和约定，再讲 API。</li>
+<li><code>chatpypi init</code> 只依赖 ChatStyle，不复制实现。</li>
+</ul>
+<p>长期建议：</p>
+<ul>
+<li>ChatStyle 作为 ChatArch CLI 行为规范的单一来源。</li>
+<li>下游项目只通过依赖升级获得交互规范更新。</li>
+<li>新增 API 必须先回答：这个能力是否属于 ChatArch CLI 公共规范，且至少适用于两个以上 <code>chatxxx</code> 工具？</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ChatArch/ChatStyle" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

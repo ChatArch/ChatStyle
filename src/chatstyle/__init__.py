@@ -68,6 +68,7 @@ from .tui import (
 )
 from .input import resolve_command_inputs
 from .input import CommandConstraint, CommandField, CommandSchema
+from .input import add_tree_option, render_click_tree, tree_callback
 
 __all__ = [
     "AUTO_PROMPT_ENV_VAR",
@@ -83,6 +84,7 @@ __all__ = [
     "MISSING_REQUIRED_NO_TTY_MESSAGE",
     "TableColumn",
     "add_interactive_option",
+    "add_tree_option",
     "abort_if_force_without_tty",
     "abort_if_missing_without_tty",
     "auto_prompt_enabled",
@@ -105,6 +107,7 @@ __all__ = [
     "render_commands",
     "render_config_priority",
     "render_config_sources",
+    "render_click_tree",
     "render_dry_run",
     "render_error",
     "render_error_block",
@@ -132,7 +135,8 @@ __all__ = [
     "resolve_command_inputs",
     "resolve_interactive_mode",
     "resolve_value",
+    "tree_callback",
     "__version__",
 ]
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"

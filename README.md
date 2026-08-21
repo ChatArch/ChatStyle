@@ -19,11 +19,11 @@
 
 ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、flow、mask、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
 
-当前版本是 `0.1.1`。
+当前版本是 `0.2.0`。
 
 ## 能力
 
-- `chatstyle.input`：命令输入声明、缺参补问解析和 Click `-i/-I` 接入。
+- `chatstyle.input`：命令输入声明、缺参补问解析、Click `-i/-I` 接入，以及标准 `--tree` / `--tree-brief` 命令树输出。
 - `chatstyle.tui`：文本、路径、确认、单选、多选 prompt，以及 choice/separator 适配。
 - `chatstyle.render`：标题、提示、状态、建议命令、表格、列表、摘要和多步骤 flow 展示。
 - `chatstyle.security`：敏感值脱敏、当前值提示和敏感输入。
@@ -40,7 +40,8 @@ src/chatstyle/
 ├── input/               # CLI 输入声明、解析和 Click 集成
 │   ├── schema.py        # CommandField / CommandSchema / CommandConstraint
 │   ├── resolve.py       # resolve_command_inputs：缺参补问、默认值、校验、TTY 策略
-│   └── click.py         # add_interactive_option：统一 -i/-I option
+│   ├── click.py         # add_interactive_option：统一 -i/-I option
+│   └── tree.py          # render_click_tree / add_tree_option：统一 --tree / --tree-brief
 ├── tui/                 # 终端交互输入原语
 │   ├── prompt.py        # text/path/confirm/select/checkbox prompt
 │   └── choice.py        # choice、separator、questionary adapter
@@ -60,7 +61,7 @@ src/chatstyle/
 
 ```python
 from chatstyle import CommandField, CommandSchema, resolve_command_inputs
-from chatstyle.input import add_interactive_option
+from chatstyle.input import add_interactive_option, add_tree_option
 from chatstyle.tui import ask_select
 from chatstyle.render import render_success
 from chatstyle.security import mask_secret
@@ -70,7 +71,7 @@ from chatstyle.security import mask_secret
 
 ### Command Schema Runtime
 
-`schema`、`resolve` 和 `click` 组成声明式命令输入层。它负责字段声明、默认值、缺参补问、字段校验、跨字段约束和 `-i/-I` 接入。
+`schema`、`resolve`、`click` 和 `tree` 组成声明式命令输入层。它负责字段声明、默认值、缺参补问、字段校验、跨字段约束、`-i/-I` 接入，以及从 Click 注册面渲染标准 `--tree` / `--tree-brief`。
 
 ### Prompt And Choice
 

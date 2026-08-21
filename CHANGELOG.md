@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-21
+
+- 新增通用 Click 命令树 runtime：`render_click_tree()`、`tree_callback()` 和 `add_tree_option()`。
+- `add_tree_option()` 标准接入 `--tree` 与 `--tree-brief`：默认 tree 保留参数签名，brief 省略参数签名，仅显示节点和说明。
+- 将该能力导出到 `chatstyle.input` 和顶层 `chatstyle`，供 ChatArch 下游 Click CLI 复用。
+
 ## 2026-08-04
 
 - `CHATARCH_AUTO_PROMPT=0/false/no/off` 现在由 ChatStyle 统一关闭自动补问；显式 `-i` 仍可强制当前命令交互。

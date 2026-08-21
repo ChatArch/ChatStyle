@@ -19,11 +19,11 @@
 
 ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, flow display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
-The current version is `0.1.1`.
+The current version is `0.2.0`.
 
 ## Features
 
-- `chatstyle.input`: command input declaration, missing-value resolution, and Click `-i/-I` integration.
+- `chatstyle.input`: command input declaration, missing-value resolution, Click `-i/-I` integration, and standard `--tree` / `--tree-brief` command-tree output.
 - `chatstyle.tui`: text, path, confirm, select, checkbox prompts, plus choice/separator adapters.
 - `chatstyle.render`: headings, notes, status lines, suggested commands, tables, lists, summaries, and multi-step flow display.
 - `chatstyle.security`: secret masking, current-value hints, and sensitive input.
@@ -40,7 +40,8 @@ src/chatstyle/
 ├── input/               # CLI input declaration, resolution, and Click integration
 │   ├── schema.py        # CommandField / CommandSchema / CommandConstraint
 │   ├── resolve.py       # resolve_command_inputs: missing prompts, defaults, validation, TTY policy
-│   └── click.py         # add_interactive_option: shared -i/-I option
+│   ├── click.py         # add_interactive_option: shared -i/-I option
+│   └── tree.py          # render_click_tree / add_tree_option: shared --tree / --tree-brief
 ├── tui/                 # terminal input primitives
 │   ├── prompt.py        # text/path/confirm/select/checkbox prompts
 │   └── choice.py        # choices, separators, questionary adapter
@@ -60,7 +61,7 @@ Recommended imports:
 
 ```python
 from chatstyle import CommandField, CommandSchema, resolve_command_inputs
-from chatstyle.input import add_interactive_option
+from chatstyle.input import add_interactive_option, add_tree_option
 from chatstyle.tui import ask_select
 from chatstyle.render import render_success
 from chatstyle.security import mask_secret
@@ -70,7 +71,7 @@ from chatstyle.security import mask_secret
 
 ### Command Schema Runtime
 
-`schema`, `resolve`, and `click` form the declarative command input layer. They handle field declaration, defaults, missing-argument prompting, field validation, cross-field constraints, and `-i/-I` integration.
+`schema`, `resolve`, `click`, and `tree` form the declarative command input layer. They handle field declaration, defaults, missing-argument prompting, field validation, cross-field constraints, `-i/-I` integration, and registered Click command-tree rendering through `--tree` / `--tree-brief`.
 
 ### Prompt And Choice
 

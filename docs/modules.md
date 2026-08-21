@@ -11,6 +11,8 @@ ChatStyle 按“输入声明、终端交互、输出展示、敏感值处理、�
 - `CommandConstraint`：表达跨字段约束。
 - `resolve_command_inputs()`：合并显式参数、默认值、interactive 补问和校验。
 - `add_interactive_option()`：给 Click 命令统一接入 `--interactive/--no-interactive` 与 `-i/-I`。
+- `render_click_tree()`：从已注册的 Click command/group 元数据渲染命令树，默认包含参数签名。
+- `add_tree_option()`：给 Click 命令统一接入 `--tree` 和 `--tree-brief`；brief 模式省略参数签名，只保留节点和说明。
 
 语义约定：
 

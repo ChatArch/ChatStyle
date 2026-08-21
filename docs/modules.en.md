@@ -11,6 +11,8 @@ Owns CLI input declaration, resolution, and Click integration:
 - `CommandConstraint`: expresses cross-field constraints.
 - `resolve_command_inputs()`: merges explicit arguments, defaults, interactive prompts, and validation.
 - `add_interactive_option()`: attaches `--interactive/--no-interactive` and `-i/-I` to Click commands.
+- `render_click_tree()`: renders a command tree from registered Click command/group metadata, including parameter signatures by default.
+- `add_tree_option()`: attaches standard `--tree` and `--tree-brief` flags; brief mode omits parameter signatures and keeps nodes plus descriptions.
 
 Semantic rules:
 

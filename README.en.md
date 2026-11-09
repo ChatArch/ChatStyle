@@ -19,7 +19,7 @@
 
 ChatStyle is a reusable CLI interaction style and runtime package extracted from ChatTool practices. It provides prompt, choice, output, masking, flow display, interactive policy, and CommandSchema runtime helpers so new CLI projects can reuse consistent missing-argument prompting, `-i/-I`, TTY handling, defaults, and validation.
 
-The current version is `0.2.0`.
+The current version is `0.2.1`.
 
 ## Features
 
@@ -72,6 +72,8 @@ from chatstyle.security import mask_secret
 ### Command Schema Runtime
 
 `schema`, `resolve`, `click`, and `tree` form the declarative command input layer. They handle field declaration, defaults, missing-argument prompting, field validation, cross-field constraints, `-i/-I` integration, and registered Click command-tree rendering through `--tree` / `--tree-brief`.
+
+Interaction is reusable **opt-in** code for individual commands, not a requirement for every command. `CommandField(..., param_type=click.IntRange(1, 10))` reuses Click range, choice and path types for supplied values, defaults and prompted input. Conversion failures identify the field without retaining a raw exception chain that may contain sensitive values. `-I` only disables prompts; an independent `--dry-run` controls preview-only behavior.
 
 ### Prompt And Choice
 

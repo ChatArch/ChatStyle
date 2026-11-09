@@ -24,6 +24,7 @@ class CommandField:
     normalizer: Callable[[Any], Any] | None = None
     validator: ValueValidator | None = None
     missing_message: str | None = None
+    param_type: Any = None
 
     def resolve_default(self):
         if self.default_factory is not None:

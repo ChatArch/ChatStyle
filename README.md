@@ -19,7 +19,7 @@
 
 ChatStyle 是从 ChatTool 实践中独立出来的 CLI 交互风格与运行时工具包。它提供 prompt、choice、output、flow、mask、interactive 策略和 CommandSchema runtime，让新的 CLI 项目可以复用统一的缺参补问、`-i/-I`、TTY 判断、默认值和校验流程。
 
-当前版本是 `0.2.0`。
+当前版本是 `0.2.1`。
 
 ## 能力
 
@@ -72,6 +72,8 @@ from chatstyle.security import mask_secret
 ### Command Schema Runtime
 
 `schema`、`resolve`、`click` 和 `tree` 组成声明式命令输入层。它负责字段声明、默认值、缺参补问、字段校验、跨字段约束、`-i/-I` 接入，以及从 Click 注册面渲染标准 `--tree` / `--tree-brief`。
+
+交互是逐命令**按需接入**的可复用代码，不要求所有命令都带提示。`CommandField(..., param_type=click.IntRange(1, 10))` 可复用Click范围、选择、路径等类型，让命令行值、默认值和人工输入接受相同校验，不必在每个包重写。转换失败只报告字段，不保留可能含敏感值的原异常链。`-I`只禁止提问，不是dry-run；是否写入仍由业务动作与独立的`--dry-run`决定。
 
 ### Prompt And Choice
 

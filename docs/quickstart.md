@@ -1,13 +1,13 @@
 # 快速开始
 
-本文演示下游项目如何把 ChatStyle 接入一个新的 Click CLI，并在项目内封装新的交互接口。示例保持业务无关，适合作为 `chattool pypi init` 生成项目后的起点。
+本文演示下游项目如何按需把ChatStyle接入一个Click命令，不要求每条命令交互。示例保持业务无关，适合作为ChatPyPI生成项目后的起点。
 
 ## 安装依赖
 
 本地开发 ChatStyle 时：
 
 ```bash
-pip install -e /home/rexwzh/workspace/core/ChatStyle
+pip install -e ./ChatStyle
 ```
 
 下游项目发布依赖时：
@@ -15,7 +15,7 @@ pip install -e /home/rexwzh/workspace/core/ChatStyle
 ```toml
 dependencies = [
   "click>=8.0",
-  "chatstyle>=0.1.0",
+  "chatstyle>=0.2.1,<0.3.0",
 ]
 ```
 
@@ -189,3 +189,32 @@ def render_config_preview(config):
 - 需要强制用户确认默认值时，用 `required=True` 加默认值；只想缺失时静默使用默认值时，不要设 required。
 - 下游项目可以封装 `ask_xxx()` / `render_xxx()`，但业务逻辑、网络请求和文件写入不放进 ChatStyle。
 - 长流程使用 `chatstyle.render` 展示阶段、计划、dry-run 和建议命令。
+
+## 复用Click类型校验
+
+从0.2.1起，可以把现有Click类型直接交给共享resolver，避免每个包另写一份范围、选择或路径校验：
+
+```python
+import click
+from chatstyle import CommandField, CommandSchema, resolve_command_inputs
+
+schema = CommandSchema("example", (
+    CommandField("count", "Count", default=4, param_type=click.IntRange(1, 10)),
+))
+values = resolve_command_inputs(
+    schema=schema, provided={"count": "5"}, interactive=False,
+    usage="Usage: example [-i|-I]",
+)
+assert values["count"] == 5
+```
+
+`param_type`接受Click ParamType或Click支持的Python类型，应用在原有kind/normalizer之后；后续validator仍负责领域规则。`click.Choice`和`click.Path`同样可用。这里只转换单个字段，不会自动逐项转换重复参数的序列。失败只报字段，不回显原值或保留原异常链。保持`-I`仅控制提问，不要把它当成dry-run。
+
+源码的`examples/interactive_input.py`是可单独运行、经过测试的**可选**例子，不注册为ChatStyle业务CLI：
+
+```bash
+python examples/interactive_input.py demo --count 2 -I
+python examples/interactive_input.py -i
+```
+
+其中可恢复的位置参数在Click层是`required=False`，在CommandField中是`required=True`。可选count只在显式`-i`时补问，默认1与执行一致；给定完整参数不会自动提示。`CHATARCH_AUTO_PROMPT=0`屏蔽自动补问，但TTY下显式`-i`仍有效。

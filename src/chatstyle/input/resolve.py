@@ -20,12 +20,22 @@ def _is_empty(value: Any) -> bool:
 def _normalize_field_value(field: CommandField, value: Any):
     if _is_empty(value):
         return value
-    if field.kind == "int" and not isinstance(value, int):
-        value = int(value)
-    if field.kind == "float" and not isinstance(value, float):
-        value = float(value)
-    if field.normalizer is not None:
-        value = field.normalizer(value)
+    invalid = False
+    try:
+        if field.kind == "int" and not isinstance(value, int):
+            value = int(value)
+        if field.kind == "float" and not isinstance(value, float):
+            value = float(value)
+        if field.normalizer is not None:
+            value = field.normalizer(value)
+        if field.param_type is not None:
+            value = click.types.convert_type(field.param_type).convert(value, None, None)
+    except (ValueError, TypeError, click.BadParameter):
+        invalid = True
+    # Raise outside the handler: converters can include a sensitive value in
+    # their error, so neither displayed text nor a retained chain may copy it.
+    if invalid:
+        raise click.ClickException(f"Invalid value for {field.prompt}")
     return value
 
 
@@ -44,10 +54,10 @@ def _prompt_for_field(field: CommandField, current: Any, runtime: PromptRuntime)
             field.prompt, default=bool(default) if default is not None else True
         )
     if field.kind == "path":
-        return runtime.ask_path(field.prompt, default=str(default or ""))
+        return runtime.ask_path(field.prompt, default=str(default if default is not None else ""))
     return runtime.ask_text(
         field.prompt,
-        default=str(default or ""),
+        default=str(default if default is not None else ""),
         password=field.sensitive,
     )
 

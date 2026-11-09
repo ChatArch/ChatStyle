@@ -1,13 +1,13 @@
 # Quickstart
 
-This guide shows how downstream projects can add ChatStyle to a new Click CLI and wrap new interaction interfaces. The examples stay business-neutral and are suitable as a starting point after `chattool pypi init`.
+This guide shows how individual Click commands opt into ChatStyle, not a requirement for every command. These business-neutral examples can be adapted after ChatPyPI scaffolding.
 
 ## Install Dependencies
 
 For local ChatStyle development:
 
 ```bash
-pip install -e /home/rexwzh/workspace/core/ChatStyle
+pip install -e ./ChatStyle
 ```
 
 For downstream package dependencies:
@@ -15,7 +15,7 @@ For downstream package dependencies:
 ```toml
 dependencies = [
   "click>=8.0",
-  "chatstyle>=0.1.0",
+  "chatstyle>=0.2.1,<0.3.0",
 ]
 ```
 
@@ -189,3 +189,32 @@ def render_config_preview(config):
 - Use `required=True` with a default when the user should confirm or override that default; omit `required` when the default should be used silently.
 - Downstream projects may wrap `ask_xxx()` / `render_xxx()`, but business logic, network calls, and file writes stay outside ChatStyle.
 - Use `chatstyle.render` for stages, plans, dry runs, and suggested commands in long-running flows.
+
+## Reuse Click type validation
+
+Version0.2.1 can reuse existing Click types in the shared resolver instead of copying range, choice and path validation into each package:
+
+```python
+import click
+from chatstyle import CommandField, CommandSchema, resolve_command_inputs
+
+schema = CommandSchema("example", (
+    CommandField("count", "Count", default=4, param_type=click.IntRange(1, 10)),
+))
+values = resolve_command_inputs(
+    schema=schema, provided={"count": "5"}, interactive=False,
+    usage="Usage: example [-i|-I]",
+)
+assert values["count"] == 5
+```
+
+`param_type` accepts a Click ParamType or a Python type supported by Click. It runs after the existing kind/normalizer conversion; validators still own domain rules. `click.Choice` and `click.Path` work too. This converts one field, not each member of a repeatable parameter. Conversion errors identify the field without raw input or a retained exception chain. `-I` suppresses prompts but is not a dry run.
+
+The source file `examples/interactive_input.py` is a runnable and tested **optional** recipe, not a registered ChatStyle business CLI:
+
+```bash
+python examples/interactive_input.py demo --count 2 -I
+python examples/interactive_input.py -i
+```
+
+The recoverable argument is `required=False` in Click and `required=True` in CommandField. Optional count prompts only under explicit `-i`, with execution default1; complete input does not auto-prompt. `CHATARCH_AUTO_PROMPT=0` suppresses automatic prompts, while explicit `-i` still works with a TTY.

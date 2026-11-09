@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-09
+
+- 发布0.2.1：`CommandField.param_type`可按需复用Click类型，在参数、默认值与交互输入上统一范围/选择/路径转换和校验，不强制其他命令接入。
+- 将数值、自定义normalizer和Click转换失败统一为安全的Click错误，不显示原值或保留可能含敏感值的异常链。
+- 修复人工接受零默认值时被当成空字符串的问题，默认值显示与执行保持一致。
+- 双语文档说明可复用接入方式及`-I`与dry-run的区别；补齐类型与敏感错误回归测试。
+
 ## 2026-08-21
 
 - 新增通用 Click 命令树 runtime：`render_click_tree()`、`tree_callback()` 和 `add_tree_option()`。
